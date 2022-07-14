@@ -1,0 +1,85 @@
+
+
+.setting-header{
+    height: 120px;
+    width: 435px;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    font-size: 18px;
+    /* border-bottom: 1px solid rgb(80, 79, 79); */
+    color: white;
+    position: fixed;
+    background-color: inherit;
+    z-index: 30;
+}
+.setting-header-offset{
+    height: 120px;
+    width: 100%;
+}
+
+.setting-header h4{
+    margin-left: 20px;
+}
+
+.setting .setting-about-display{
+    height: 120px;
+    display: flex;
+    align-items: center;
+    /* border-bottom: 1px solid gray; */
+}
+
+.setting-about-display .about-img{
+    padding: 3px;
+    flex: 2;
+}
+
+.setting .setting-about-display img{
+    height: 90px;
+    width: 90px;
+    /* object-fit: contain; */
+    /* border-radius: 50%; */
+}
+
+.setting .about-text{
+    flex: 5;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: white;
+}
+.setting .about-text .username{
+    font-size: 16px;
+    text-transform: uppercase;
+}
+.setting .about-text .text{
+    opacity: .4;
+    font-weight: 100;
+    font-size: 14px;
+}
+
+.setting .item-list{
+    width: 100%;
+    height: 75px;
+    display: flex;
+    align-items: center;
+    transition: all ease-in-out 0.4;
+    color: white;
+    font-size: 17px;
+}
+.setting .item-list:hover{
+    background: rgb(32,44,51);
+}
+
+.setting .item-list .icon{
+    flex: 1;
+}
+.setting .item-list .item-text{
+    border-bottom: 1px solid gray;
+    flex: 5;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}

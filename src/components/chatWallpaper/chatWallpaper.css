@@ -1,0 +1,26 @@
+.chatWallpaper{
+    overflow-y: auto;
+}
+
+.chatWallpaper .color-panels{
+    width: 80%;
+    height: 750px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 10px;
+    /* flex-wrap: wrap; */
+}
+.chatWallpaper .color-panels .color-panel{
+    /* height: 50px;
+    width: 50px; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    cursor: pointer;
+}
+.chatWallpaper .color-panels .color-panel:nth-child(1){
+    background: black;
+}
