@@ -14,6 +14,8 @@ import { useNavigate } from 'react-router-dom'
 import { setLeftView } from '../redux/appSlice'
 import { addChatList, setHeaderToggle, setShowGroupModal } from '../redux/chatSlice'
 import ProfilePopUp from './modals/ProfilePopUp'
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+
 
 
 const Sidebar = ({ socket }) => {
@@ -24,7 +26,7 @@ const Sidebar = ({ socket }) => {
     const [searchName, setSearchName] = useState('')
     const { user, userList } = useSelector(state => state.user)
     const { chatList, headerToggle, popImg } = useSelector(state => state.chat)
-    const PF = 'https://flimzy-chat-app.herokuapp.com/images/'
+    const PF = REACT_APP_BACKEND_URL
 
 
     const logoutRequest = () => {

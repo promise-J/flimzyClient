@@ -3,7 +3,6 @@ import { MdOutlineCancel } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { setRightView } from '../redux/appSlice'
 import { setSelectedMessage } from '../redux/messageSlice'
-import MessageText from './MessageText'
 
 
 const MessageInfoSidebar = () => {

@@ -6,12 +6,14 @@ import {BsTelephone} from 'react-icons/bs'
 import ProfilePic from '../images/profileBlank.png'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLeftView } from '../redux/appSlice'
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+
 
 
 
 export const ProfileSidebar = () => {
  
-  const PF = 'https://flimzy-chat-app.herokuapp.com/images/'
+  const PF = REACT_APP_BACKEND_URL
   const dispatch = useDispatch()
   const {user} = useSelector(state=> state.user)
 

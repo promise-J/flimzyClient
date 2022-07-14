@@ -39,9 +39,9 @@ const ChatView = () => {
     // const [socket, setSocket] = useState(null)
     useEffect(() => {
         const initSocket = () => {
-            // let sock = io(END_POINT)
+            let sock = io(END_POINT)
             socket.emit('setup', user)
-            // setSocket(sock)
+            socket === null && setSocket(sock)
         }
         user && initSocket()
     }, [user, socket])

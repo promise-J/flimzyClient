@@ -14,13 +14,15 @@ import { setRightView } from '../redux/appSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { setNotifications } from '../redux/chatSlice'
 import { setSingleLoad } from '../redux/messageSlice'
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+
 // import io from 'socket.io-client'
 
 
 // import ScrollableFeed from 'react-scrollable-feed'
 
 const MessageSection = ({ user, socket }) => {
-    const PF = 'https://flimzy-chat-app.herokuapp.com/images/'
+    const PF = REACT_APP_BACKEND_URL
     const dispatch = useDispatch()
     const { rightView, colorPallete } = useSelector(state => state.app)
     const { user: currentUser, chatId } = useSelector(state => state.user)

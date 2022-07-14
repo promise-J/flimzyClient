@@ -7,11 +7,13 @@ import { WiDayLightWind } from 'react-icons/wi'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLeftView, setShowTheme } from '../redux/appSlice'
 import './setting.css'
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+
 
 const Setting = () => {
     const about = 'This is where your status is supposed to go so enjoy'
 
-    const PF = 'https://flimzy-chat-app.herokuapp.com/images/'
+    const PF = REACT_APP_BACKEND_URL
 
     const dispatch = useDispatch()
     const {user} = useSelector(state=> state.user)

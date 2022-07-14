@@ -6,17 +6,16 @@ import { makeRequest } from '../utils/apiCalls'
 import {format} from 'timeago.js'
 import { setPopImg, setShowImg } from '../redux/chatSlice'
 // import { setSelectedChatCompare } from '../redux/chatSlice'
+const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 
 const ChatList = ({chat, socket}) => {
     const imgRef = useRef(null)
     const dispatch = useDispatch()
-    const {user: currentUser, chatId} = useSelector(state=> state.user)
-    const {notifications} = useSelector(state=> state.chat)
+    const {user: currentUser} = useSelector(state=> state.user)
     const {singleLoad} = useSelector(state=> state.message)
-    const [chatNotif, setChatNotif] = useState(new Set())
     const [lastMsg, setLastMsg] = useState('')
-    const PF = 'https://flimzy-chat-app.herokuapp.com/images/'
+    const PF = REACT_APP_BACKEND_URL
     
 
     // useEffect(()=>{
