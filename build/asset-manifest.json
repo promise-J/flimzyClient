@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1c7f616e.css",
+    "main.js": "/static/js/main.9fd463a5.js",
+    "static/media/whatsappdarktheme.jpg": "/static/media/whatsappdarktheme.ed848459d3a10f2c234f.jpg",
+    "static/media/security.png": "/static/media/security.860877981bc3b4210cc3.png",
+    "index.html": "/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.1c7f616e.css",
+    "static/js/main.9fd463a5.js"
+  ]
+}
