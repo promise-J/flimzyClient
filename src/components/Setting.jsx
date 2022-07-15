@@ -27,7 +27,7 @@ const Setting = () => {
             <div className="setting-header-offset"></div>
             <div className="setting-about-display">
                 <div className='about-img'>
-                <img src={PF + user.picture} alt=".." />
+                <img src={PF + '/images/' + user.picture} alt=".." />
                 </div>
                 <div className="about-text">
                     <span className="username">{user?.username}</span>

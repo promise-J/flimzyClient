@@ -27,7 +27,7 @@ export const ProfileSidebar = () => {
         </div>
         <div className="profile-sidebar-header-offset"></div>
         <div className="profile-sidebar-img">
-            <img style={{cursor: 'pointer'}} className='image' src={user ? PF+user?.picture : ProfilePic} alt='..' />
+            <img style={{cursor: 'pointer'}} className='image' src={user ? PF+ '/images/' +user?.picture : ProfilePic} alt='..' />
         </div>
         <p>About and Phone Number</p>
         <div className="profile-details">
