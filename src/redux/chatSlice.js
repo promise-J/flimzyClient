@@ -8,7 +8,6 @@ const initialState = {
     showGroupModal: false,
     chatObject: null,
     socketId: null,
-    // chatMessages: [],
     notifications: [],
     popImg: null,
     showImg: false
@@ -49,7 +48,7 @@ const chatSlice = createSlice({
         //     state.chatMessages.push(action.payload)
         // },
         setNotifications: (state, action)=>{
-            state.notifications.push(action.payload)
+            state.notifications = [...state.notifications, action.payload]
         },
         setPopImg: (state, action)=>{
             state.popImg = action.payload

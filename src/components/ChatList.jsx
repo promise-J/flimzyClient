@@ -9,7 +9,7 @@ import { setPopImg, setShowImg } from '../redux/chatSlice'
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 
-const ChatList = ({chat, socket}) => {
+const ChatList = ({chat, notifications, setNotifications}) => {
     const imgRef = useRef(null)
     const dispatch = useDispatch()
     const {user: currentUser} = useSelector(state=> state.user)
@@ -34,11 +34,12 @@ const ChatList = ({chat, socket}) => {
                 }
             }
             getChat()
-        },[singleLoad, chat])
+        },[singleLoad, chat, notifications])
     
 
     const selectChat = (chatId) => {
         dispatch(setChatId(chatId))
+        setNotifications(notifications.filter(notif=> notif.chat._id!==chat._id))
     }
 
     
@@ -71,16 +72,21 @@ const ChatList = ({chat, socket}) => {
     dispatch(setShowImg(true))
   }
 
+  const displayNotif = ()=>{
+    return notifications.filter(notif=> notif.chat._id===chat._id).length
+  }
+
+
 
   return (
     <div key={chat._id} className="left-header-chat">
     <span className="chat-time unseen">{getTimeAgo()?.value}</span>
-    {/* <div className="animate-chat">
-        <i className="fa fa-thumb-tack pin" aria-hidden="true"></i>
-        {/* <span className="notif-message">2</span> 
+    <div className="animate-chat">
+        {/* <i className="fa fa-thumb-tack pin" aria-hidden="true"></i> */}
+        {displayNotif() > 0 && <span className="notif-message">{displayNotif()}</span> }
         <i className="fa fa-angle-down" id="arrow-drop" aria-hidden="true"></i>
     </div> 
-    */}
+   
     <img ref={imgRef} onClick={displayImg} src={chat.isGroup ? `${ProfilePic}` : `${PF}/images/${groupName().picture}`} alt="" />
     <div onClick={() => selectChat(chat._id)} className="left-header-chat-details">
         <span className="chat-name">{chat.isGroup ? groupName() : groupName().username}</span>

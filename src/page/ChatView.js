@@ -30,6 +30,7 @@ const ChatView = () => {
     const [openProfile, setOpenProfile] = useState(false)
     const [leftToggleHeader, setLeftToggleHeader] = useState(false)
     const [socket, setSocket] = useState(io(END_POINT))
+    const [notifications, setNotifications] = useState([])
 
 
     const { chatId, user } = useSelector(state => state.user)
@@ -45,7 +46,17 @@ const ChatView = () => {
         }
         user && initSocket()
     }, [user, socket])
-
+    
+    useEffect(()=>{
+        socket.on('receive message', (newMessage) => {
+            if (chatId !== newMessage.chat._id) {
+                //send a notification to the user
+                setNotifications([...notifications, newMessage])
+            }
+        })
+    })
+    // console.log(notifications, 'chatview')
+    
 
     useEffect(() => {
         const userChats = async () => {
@@ -110,10 +121,12 @@ const ChatView = () => {
             {leftView ==='setting' ? <Setting /> : 
             leftView === 'profile' ? <ProfileSidebar /> : 
             leftView==='privacy' ? <Privacy /> :  leftView==='notification' ?
-             <Notification /> : leftView==='security' ? <Security />  : leftView==='chatWallpaper' ? <ChatWallpaper /> : leftView==='requestAccount' ? <RequestAccount /> : leftView==='help' ? <Help /> : <ChatSidebar socket={socket} />}
+             <Notification /> : leftView==='security' ? <Security />  : leftView==='chatWallpaper' ?
+              <ChatWallpaper /> : leftView==='requestAccount' ? <RequestAccount /> : leftView==='help' ? <Help /> 
+             : <ChatSidebar setNotifications={setNotifications} notifications={notifications} socket={socket} />}
             <div className="right" style={{ flex: rightView !== null ? '50%' : '70%', zIndex: 23, background: colorPallete && colorPallete }}>
                 {chatId ?
-                    <MessageSection socket={socket} user={user} setOpenProfile={setOpenProfile} openProfile={openProfile} />
+                    <MessageSection notifications={notifications} setNotifications={setNotifications} socket={socket} user={user} setOpenProfile={setOpenProfile} openProfile={openProfile} />
                     :
                     <>
                         <div style={{ height: 'calc(100%)', width: '100%', flexDirection: 'column', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>

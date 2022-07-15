@@ -18,7 +18,7 @@ const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 
 
-const Sidebar = ({ socket }) => {
+const Sidebar = ({ socket, notifications, setNotifications }) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
@@ -96,6 +96,8 @@ const Sidebar = ({ socket }) => {
                 {
                     chatList.filter(user => user.chatName.toLowerCase().includes(searchName.toLowerCase())).map(chat => (
                         <ChatList
+                            setNotifications={setNotifications}
+                            notifications={notifications}
                             socket={socket}
                             chat={chat} key={chat?._id}
                         />

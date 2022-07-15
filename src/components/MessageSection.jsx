@@ -12,7 +12,7 @@ import { RiShareForwardLine } from 'react-icons/ri'
 import { toast } from 'react-toastify'
 import { setRightView } from '../redux/appSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { setNotifications } from '../redux/chatSlice'
+// import { setNotifications } from '../redux/chatSlice'
 import { setSingleLoad } from '../redux/messageSlice'
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
@@ -21,7 +21,7 @@ const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 // import ScrollableFeed from 'react-scrollable-feed'
 
-const MessageSection = ({ user, socket }) => {
+const MessageSection = ({ user, socket, setNotifications, notifications }) => {
     const PF = REACT_APP_BACKEND_URL
     const dispatch = useDispatch()
     const { rightView, colorPallete } = useSelector(state => state.app)
@@ -34,6 +34,7 @@ const MessageSection = ({ user, socket }) => {
     const [selectedLabel, setSelectedLabel] = useState([])
     const [isTyping, setIsTyping] = useState(false)
     const [msgLoad, setMsgLoad] = useState(false)
+    // const [notifs, setNotifs] = useState([])
     // const [socket, setSocket] = useState(null)
     // const [socketConnected, setSocketConnected] = useState(false)
 
@@ -51,15 +52,11 @@ const MessageSection = ({ user, socket }) => {
         socket.on('typing', ()=> message && setIsTyping(true))
         socket.on('stop typing', ()=>setIsTyping(false))
         socket.on('receive message', (newMessage) => {
-            if (chatId !== newMessage.chat._id) {
-                //send a notification to the user
-                dispatch(setNotifications(newMessage))
-            } else {
+            if (chatId === newMessage.chat._id){
                 setMessages([...messages, newMessage])
             }
         })
     })
-    // console.log(notifications, 'alert')
 
     useEffect(() => {
         const getChatMessages = async () => {
@@ -76,13 +73,14 @@ const MessageSection = ({ user, socket }) => {
 
     const submitMessage = async (e) => {
         e.preventDefault()
+        if(!message) return
         try {
             const res = await makeRequest.post('/message', { chat: chatObject._id, content: message })
             setMessage('')
             setMessages([...messages, res.data])
             dispatch(setSingleLoad(!singleLoad))
-            socket.emit('new message', res.data)
-            socket.emit('stop typing', chatId)
+            socket && socket.emit('new message', res.data)
+            socket && socket.emit('stop typing', chatId)
         } catch (error) {
             console.log(error)
         }
@@ -115,7 +113,6 @@ const MessageSection = ({ user, socket }) => {
         const result = chatObject?.users.filter(user=> user._id!==currentUser._id)[0].picture
         return result
     }
-    console.log(getPicture())
 
     return (
         <>
