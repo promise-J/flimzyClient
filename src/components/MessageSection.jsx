@@ -121,7 +121,7 @@ const MessageSection = ({ user, socket }) => {
         <>
             <div className="right-header" >
                 <div className="right-header-details" style={{ cursor: 'pointer' }} onClick={() => dispatch(setRightView('profile'))}>
-                    <img src={chatObject?.isGroup || !getPicture() ? ProfilePic : PF + getPicture()} alt="" />
+                    <img src={chatObject?.isGroup || !getPicture() ? ProfilePic : PF+ '/images/' + getPicture()} alt="" />
                     <div className="right-header-detail">
                         <span>{groupName()}</span>
                         <span>{isTyping ? 'typing' : ''}</span>
