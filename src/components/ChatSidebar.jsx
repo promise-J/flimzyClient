@@ -55,7 +55,7 @@ const Sidebar = ({ socket }) => {
         <div className="left">
             <div className="left-header" style={{ position: 'relative' }}>
                 <ProfilePopUp imgPop={popImg} />
-                <img style={{ cursor: 'pointer' }} onClick={() => dispatch(setLeftView('profile'))} src={PF + '/images/' user?.picture} alt="..." />
+                <img style={{ cursor: 'pointer' }} onClick={() => dispatch(setLeftView('profile'))} src={PF + '/images/' + user?.picture} alt="..." />
                 <div className="left-header-icons">
                     <HiOutlineStatusOnline className='fa' />
                     <BsChatLeftTextFill className='fa' style={{ fontSize: 16 }} />
