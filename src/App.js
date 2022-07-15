@@ -44,7 +44,7 @@ function App() {
     <ToastContainer />
     <Routes>
       <Route path='/' exact element={<Homepage />} />
-      <Route path='/chat' exact element={<PrivateRoute isLogged={isLogged}><ChatView /></PrivateRoute>} />
+      <Route path='chat' exact element={<PrivateRoute isLogged={isLogged}><ChatView /></PrivateRoute>} />
     </Routes>
     </BrowserRouter>
   );
