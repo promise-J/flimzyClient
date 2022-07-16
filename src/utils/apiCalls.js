@@ -2,6 +2,8 @@ import axios from 'axios'
 
 
 const TOKEN = localStorage.getItem('secretToken')
+// REACT_APP_BACKEND_URL=https://flimzy-api-app.herokuapp.com
+
 
 const BASE_URL = process.env.REACT_APP_BACKEND_URL
 export const makeRequest = axios.create({

@@ -87,7 +87,7 @@ const ChatList = ({chat, notifications, setNotifications}) => {
         <i className="fa fa-angle-down" id="arrow-drop" aria-hidden="true"></i>
     </div> 
    
-    <img ref={imgRef} onClick={displayImg} src={chat.isGroup ? `${ProfilePic}` : `${PF}/images/${groupName().picture}`} alt="" />
+    <img ref={imgRef} onClick={displayImg} src={chat.isGroup ? `${ProfilePic}` : `${PF}/images/${groupName().picture}`} alt={groupName()?.username} />
     <div onClick={() => selectChat(chat._id)} className="left-header-chat-details">
         <span className="chat-name">{chat.isGroup ? groupName() : groupName().username}</span>
         <div className="chat-snippet">

@@ -77,7 +77,7 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
                 </div>
             </div>
             <div className="left-header-container">
-                <div className="left-header-chat">
+                {/* <div className="left-header-chat">
                     <span className="chat-time unseen">7:59 PM</span>
                     <div className="animate-chat">
                         <i className="fa fa-thumb-tack pin" aria-hidden="true"></i>
@@ -92,9 +92,9 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
                             <span className="last-message">Congratulations on your new Job...</span>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {
-                    chatList.filter(user => user.chatName.toLowerCase().includes(searchName.toLowerCase())).map(chat => (
+                    chatList.length < 1 ? <p style={{color: 'white', margin: '10px 0 10px 20px'}}>Choose a user to chat below</p> : chatList.filter(user => user.chatName.toLowerCase().includes(searchName.toLowerCase())).map(chat => (
                         <ChatList
                             setNotifications={setNotifications}
                             notifications={notifications}
