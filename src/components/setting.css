@@ -11,7 +11,7 @@
     color: white;
     position: fixed;
     background-color: inherit;
-    z-index: 30;
+    z-index: 5;
 }
 .setting-header-offset{
     height: 120px;
