@@ -1,6 +1,6 @@
 import React from 'react'
 import { BiArrowBack } from 'react-icons/bi'
-import { BsInfoSquare, BsKeyboard, BsNewspaper } from 'react-icons/bs'
+import { BsInfoSquare, BsNewspaper } from 'react-icons/bs'
 import { IoMdNotificationsOutline } from 'react-icons/io'
 import { MdLockOutline, MdOutlineHelpOutline, MdSecurity } from 'react-icons/md'
 import { WiDayLightWind } from 'react-icons/wi'
@@ -57,10 +57,6 @@ const Setting = () => {
                 <div className="item-list" onClick={() => dispatch(setLeftView('requestAccount'))}>
                     <BsInfoSquare className='icon' />
                     <span className='item-text'>Request Account Info</span>
-                </div>
-                <div className="item-list" onClick={() => dispatch(setLeftView('chatWallpaper'))}>
-                    <BsKeyboard className='icon' />
-                    <span className='item-text'>Keyboard shortcuts</span>
                 </div>
                 <div className="item-list" onClick={() => dispatch(setLeftView('help'))}>
                     <MdOutlineHelpOutline className='icon' />

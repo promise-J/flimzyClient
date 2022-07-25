@@ -21,11 +21,13 @@ import ThemeModal from '../components/modals/ThemeModal'
 import ChatWallpaper from '../components/chatWallpaper/ChatWallpaper'
 import RequestAccount from '../components/requestAccount/RequestAccount'
 import Help from '../components/help/Help'
+import CallPage from './CallPage'
 
 const END_POINT = process.env.REACT_APP_BACKEND_URL
 
 
 const ChatView = () => {
+
     const dispatch = useDispatch()
     const [openProfile, setOpenProfile] = useState(false)
     const [leftToggleHeader, setLeftToggleHeader] = useState(false)
@@ -34,7 +36,7 @@ const ChatView = () => {
 
 
     const { chatId, user } = useSelector(state => state.user)
-    const { rightView, showTheme, leftView, colorPallete } = useSelector(state => state.app)
+    const { rightView, showTheme, leftView, colorPallete, callMode } = useSelector(state => state.app)
     const { showGroupModal, showImg, chatLoading, headerToggle } = useSelector(state => state.chat)
 
     // const [socket, setSocket] = useState(null)
@@ -115,6 +117,7 @@ const ChatView = () => {
     // linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(117, 19, 93, 0.73)),
     // url('images/background.jpg')
     return (
+        <>
         <div className="container" onClick={closeAll}>
             {showGroupModal && <GroupModal />}
             {showTheme && <ThemeModal />}
@@ -143,6 +146,8 @@ const ChatView = () => {
                 <RightSidebar /> : null
             }
         </div>
+        {callMode && <CallPage />}
+        </>
     )
 }
 

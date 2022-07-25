@@ -5,7 +5,8 @@ const initialState = {
     rightView: null,
     leftView: 'chat',
     showTheme: false,
-    colorPallete: ''
+    colorPallete: '',
+    callMode: false
 }
 
 const appSlice = createSlice({
@@ -23,10 +24,13 @@ const appSlice = createSlice({
         },
         setColorPallete: (state,action)=>{
             state.colorPallete = action.payload
+        },
+        setCallMode: (state)=>{
+            state.callMode = !state.callMode
         }
     }
 })
 
-export const {setRightView, setLeftView, setShowTheme, setColorPallete} = appSlice.actions
+export const {setRightView, setLeftView, setShowTheme, setColorPallete, setCallMode} = appSlice.actions
 
 export default appSlice.reducer

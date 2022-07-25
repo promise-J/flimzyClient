@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
-import { BsChatLeftTextFill, BsFilter } from 'react-icons/bs'
+import { BsFilter } from 'react-icons/bs'
 import { HiOutlineStatusOnline } from 'react-icons/hi'
 import { IoIosArrowUp, IoMdSearch } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
@@ -11,9 +11,10 @@ import ChatList from './ChatList'
 import { AiOutlineDown } from 'react-icons/ai'
 import { logout } from '../redux/userSlice'
 import { useNavigate } from 'react-router-dom'
-import { setLeftView } from '../redux/appSlice'
+import { setCallMode, setLeftView } from '../redux/appSlice'
 import { addChatList, setHeaderToggle, setShowGroupModal } from '../redux/chatSlice'
 import ProfilePopUp from './modals/ProfilePopUp'
+import { FaVideo } from 'react-icons/fa'
 const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 
@@ -55,11 +56,12 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
         <div className="left">
             <div className="left-header" style={{ position: 'relative' }}>
                 <ProfilePopUp imgPop={popImg} />
-                <img style={{ cursor: 'pointer' }} onClick={() => dispatch(setLeftView('profile'))} src={PF + '/images/' + user?.picture} alt="..." />
+                <img title='Your Profile' style={{ cursor: 'pointer' }} onClick={() => dispatch(setLeftView('profile'))} src={PF + '/images/' + user?.picture} alt="..." />
                 <div className="left-header-icons">
-                    <HiOutlineStatusOnline className='fa' />
-                    <BsChatLeftTextFill className='fa' style={{ fontSize: 16 }} />
-                    <BiDotsVerticalRounded className='fa' onClick={() => dispatch(setHeaderToggle(!headerToggle))} />
+                    <HiOutlineStatusOnline title='Create Status' className='fa' />
+                    <FaVideo title='Start a video call' onClick={()=> dispatch(setCallMode())} className='fa' />
+                    {/* <BsChatLeftTextFill className='fa' style={{ fontSize: 16 }} /> */}
+                    <BiDotsVerticalRounded title='See more' className='fa' onClick={() => dispatch(setHeaderToggle(!headerToggle))} />
                 </div>
                 <ul style={{ display: headerToggle ? 'block' : 'none' }}>
                     <li onClick={() => {dispatch(setShowGroupModal(true)); dispatch(setHeaderToggle(false))}}>New Group</li>

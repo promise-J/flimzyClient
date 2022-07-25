@@ -32,12 +32,13 @@ export const ProfileSidebar = () => {
         <p>About and Phone Number</p>
         <div className="profile-details">
             <GrCircleInformation style={{cursor: 'pointer',fontSize: 22, position: 'absolute', top: 10, left: 18, color: 'white', opacity: 0.5}} />
-            <span style={{margin: '0 26px', padding: '0 10px'}}>Your about will come here: Tell us about yourself, what you do and what you intend doing in the future</span>
+            {/* <BiPencil style={{cursor: 'pointer',fontSize: 22, position: 'absolute', top: 10, right: 18, color: 'white', opacity: 0.5}} /> */}
+            <span style={{margin: '0 26px', padding: '0 10px', color: 'white'}}>Your about will come here: Tell us about yourself, what you do and what you intend doing in the future</span>
             <BiPencil style={{cursor: 'pointer',fontSize: 22, position: 'absolute', top: 10, right: 18, color: 'white', opacity: 0.5}} />
         </div>
         <div className="profile-details">
             <BsTelephone style={{cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, left: 18, color: 'white', opacity: 0.5}} />
-            <span style={{margin: '0 26px', padding: '0 10px', color: 'white'}}>Promise@gmail.com</span>
+            <span style={{margin: '0 26px', padding: '0 10px', color: 'white'}}>{user.username} {" | "} {user.email}</span>
             <BiPencil style={{cursor: 'pointer',fontSize: 22, position: 'absolute', top: 10, right: 18, color: 'white', opacity: 0.5}} />
         </div>
         <div className="profile-details">
