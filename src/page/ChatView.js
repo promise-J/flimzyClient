@@ -22,6 +22,7 @@ import ChatWallpaper from '../components/chatWallpaper/ChatWallpaper'
 import RequestAccount from '../components/requestAccount/RequestAccount'
 import Help from '../components/help/Help'
 import CallPage from './CallPage'
+import StatusPage from './StatusPage'
 
 const END_POINT = process.env.REACT_APP_BACKEND_URL
 
@@ -36,7 +37,7 @@ const ChatView = () => {
 
 
     const { chatId, user } = useSelector(state => state.user)
-    const { rightView, showTheme, leftView, colorPallete, callMode } = useSelector(state => state.app)
+    const { rightView, showTheme, leftView, colorPallete, callMode, statusMode } = useSelector(state => state.app)
     const { showGroupModal, showImg, chatLoading, headerToggle } = useSelector(state => state.chat)
 
     // const [socket, setSocket] = useState(null)
@@ -147,6 +148,7 @@ const ChatView = () => {
             }
         </div>
         {callMode && <CallPage />}
+        {statusMode && <StatusPage />}
         </>
     )
 }

@@ -27,10 +27,13 @@ const appSlice = createSlice({
         },
         setCallMode: (state)=>{
             state.callMode = !state.callMode
+        },
+        setStatusMode: (state)=>{
+            state.statusMode = !state.statusMode
         }
     }
 })
 
-export const {setRightView, setLeftView, setShowTheme, setColorPallete, setCallMode} = appSlice.actions
+export const {setRightView, setLeftView, setShowTheme, setColorPallete, setCallMode, setStatusMode} = appSlice.actions
 
 export default appSlice.reducer

@@ -11,7 +11,7 @@ import ChatList from './ChatList'
 import { AiOutlineDown } from 'react-icons/ai'
 import { logout } from '../redux/userSlice'
 import { useNavigate } from 'react-router-dom'
-import { setCallMode, setLeftView } from '../redux/appSlice'
+import { setCallMode, setLeftView, setStatusMode } from '../redux/appSlice'
 import { addChatList, setHeaderToggle, setShowGroupModal } from '../redux/chatSlice'
 import ProfilePopUp from './modals/ProfilePopUp'
 import { FaVideo } from 'react-icons/fa'
@@ -58,7 +58,7 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
                 <ProfilePopUp imgPop={popImg} />
                 <img title='Your Profile' style={{ cursor: 'pointer' }} onClick={() => dispatch(setLeftView('profile'))} src={PF + '/images/' + user?.picture} alt="..." />
                 <div className="left-header-icons">
-                    <HiOutlineStatusOnline title='Create Status' className='fa' />
+                    <HiOutlineStatusOnline title='Create Status' onClick={()=> dispatch(setStatusMode())} className='fa' />
                     <FaVideo title='Start a video call' onClick={()=> dispatch(setCallMode())} className='fa' />
                     {/* <BsChatLeftTextFill className='fa' style={{ fontSize: 16 }} /> */}
                     <BiDotsVerticalRounded title='See more' className='fa' onClick={() => dispatch(setHeaderToggle(!headerToggle))} />
