@@ -23,8 +23,8 @@ import RequestAccount from '../components/requestAccount/RequestAccount'
 import Help from '../components/help/Help'
 // import StatusPage from './StatusPage'
 
-// const END_POINT = process.env.REACT_APP_BACKEND_URL
-const END_POINT = 'http://localhost:5000'
+const END_POINT = process.env.REACT_APP_BACKEND_URL
+// const END_POINT = 'http://localhost:5000'
 
 
 const ChatView = () => {
