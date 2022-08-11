@@ -54,7 +54,7 @@ const RightSidebar = () => {
                     <span className='sidebar-header-info'>Contact Info</span>
                 </div>
                 <div className='sidebar-first'>
-                    <img src={chatObject.isGroup ? ProfilePic : PF + '/images/' + groupName()?.picture} alt='' />
+                    <img src={chatObject?.isGroup ? ProfilePic : groupName()?.picture} alt='' />
                     <h2>{groupName()?.username}</h2>
                     <p>08129493748</p>
                 </div>

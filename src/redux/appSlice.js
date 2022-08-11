@@ -6,7 +6,6 @@ const initialState = {
     leftView: 'chat',
     showTheme: false,
     colorPallete: '',
-    callMode: false
 }
 
 const appSlice = createSlice({
@@ -24,9 +23,6 @@ const appSlice = createSlice({
         },
         setColorPallete: (state,action)=>{
             state.colorPallete = action.payload
-        },
-        setCallMode: (state)=>{
-            state.callMode = !state.callMode
         },
         setStatusMode: (state)=>{
             state.statusMode = !state.statusMode

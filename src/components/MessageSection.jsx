@@ -1,20 +1,23 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useState } from 'react'
 import ProfilePic from '../images/profileBlank.png'
 import { IoMdSearch } from 'react-icons/io'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 import { BiMicrophone } from 'react-icons/bi'
-import { MdAttachFile, MdDelete, MdOutlineClear } from 'react-icons/md'
+import { MdAttachFile, MdCancel, MdDelete, MdOutlineClear } from 'react-icons/md'
 import { BsEmojiSmile } from 'react-icons/bs'
 import { makeRequest } from '../utils/apiCalls'
-import MessageText from './MessageText'
 import { FiStar } from 'react-icons/fi'
 import { RiShareForwardLine } from 'react-icons/ri'
 import { toast } from 'react-toastify'
-import { setRightView } from '../redux/appSlice'
+import { setCallMode, setRightView } from '../redux/appSlice'
 import { useDispatch, useSelector } from 'react-redux'
 // import { setNotifications } from '../redux/chatSlice'
-import { setSingleLoad } from '../redux/messageSlice'
-const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import { setRepliedMessage, setSingleLoad } from '../redux/messageSlice'
+import { FaVideo } from 'react-icons/fa'
+import EmojiPicker from './EmojiPicker'
+import MessageBody from './MessageBody'
+import MessageImgUpload from './MessageImgUpload'
+
 
 // import io from 'socket.io-client'
 
@@ -22,11 +25,10 @@ const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 // import ScrollableFeed from 'react-scrollable-feed'
 
 const MessageSection = ({ user, socket, setNotifications, notifications }) => {
-    const PF = REACT_APP_BACKEND_URL
     const dispatch = useDispatch()
-    const { rightView, colorPallete } = useSelector(state => state.app)
+    const { rightView } = useSelector(state => state.app)
     const { user: currentUser, chatId } = useSelector(state => state.user)
-    const { messageLoad, singleLoad } = useSelector(state => state.message)
+    const { messageLoad, singleLoad, repliedMessage } = useSelector(state => state.message)
     const { chatObject } = useSelector(state => state.chat)
     const [message, setMessage] = useState('')
     const [messages, setMessages] = useState([])
@@ -34,29 +36,23 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
     const [selectedLabel, setSelectedLabel] = useState([])
     const [isTyping, setIsTyping] = useState(false)
     const [msgLoad, setMsgLoad] = useState(false)
-    // const [notifs, setNotifs] = useState([])
-    // const [socket, setSocket] = useState(null)
-    // const [socketConnected, setSocketConnected] = useState(false)
+    const [emojiMode, setEmojiMode] = useState(false)
+    const [replyMode, setReplyMode] = useState(false)
+    // const [messageImg, setMessageImg] = useState(null)
 
-    const messagesEndRef = useRef(null)
-
-    const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", bottom: 0 })
-    }
+    // console.log(chatObject, 'chatObject')
 
     useEffect(() => {
-        scrollToBottom()
-    }, [messages]);
-
-    useEffect(() => {
-        socket.on('typing', ()=> message && setIsTyping(true))
-        socket.on('stop typing', ()=>setIsTyping(false))
+        socket.on('typing', () => message && setIsTyping(true))
+        socket.on('stop typing', () => setIsTyping(false))
         socket.on('receive message', (newMessage) => {
-            if (chatId === newMessage.chat._id){
+            if (chatId === newMessage.chat._id) {
                 setMessages([...messages, newMessage])
             }
         })
     })
+
+
 
     useEffect(() => {
         const getChatMessages = async () => {
@@ -73,14 +69,29 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
 
     const submitMessage = async (e) => {
         e.preventDefault()
-        if(!message) return
+        if (!message) return
+        const formData = new FormData()
+        // formData.append('image', messageImg)
         try {
-            const res = await makeRequest.post('/message', { chat: chatObject._id, content: message })
-            setMessage('')
-            setMessages([...messages, res.data])
-            dispatch(setSingleLoad(!singleLoad))
-            socket && socket.emit('new message', res.data)
-            socket && socket.emit('stop typing', chatId)
+            if(repliedMessage){
+                const res = await makeRequest.post('/message', { chat: chatObject._id, content: message, replyMessage: repliedMessage._id })
+                setMessage('')
+                emojiMode && setEmojiMode(false)
+                setMessages([...messages, res.data])
+                dispatch(setSingleLoad(!singleLoad))
+                setReplyMode(false)
+                dispatch(setRepliedMessage(null))
+                socket && socket.emit('new message', res.data)
+                socket && socket.emit('stop typing', chatId)
+            }else{
+                const res = await makeRequest.post('/message', { chat: chatObject._id, content: message })
+                setMessage('')
+                emojiMode && setEmojiMode(false)
+                setMessages([...messages, res.data])
+                dispatch(setSingleLoad(!singleLoad))
+                socket && socket.emit('new message', res.data)
+                socket && socket.emit('stop typing', chatId)
+            }
         } catch (error) {
             console.log(error)
         }
@@ -109,8 +120,8 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
         }
     }
 
-    const getPicture = ()=>{
-        const result = chatObject?.users.filter(user=> user._id!==currentUser._id)[0].picture
+    const getPicture = () => {
+        const result = chatObject?.users.filter(user => user._id !== currentUser._id)[0].picture
         return result
     }
 
@@ -118,62 +129,82 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
         <>
             <div className="right-header" >
                 <div className="right-header-details" style={{ cursor: 'pointer' }} onClick={() => dispatch(setRightView('profile'))}>
-                    <img src={chatObject?.isGroup || !getPicture() ? ProfilePic : PF+ '/images/' + getPicture()} alt="" />
+                    <img src={chatObject?.isGroup || !getPicture() ? ProfilePic : getPicture()} alt="" />
                     <div className="right-header-detail">
                         <span>{groupName()}</span>
                         <span>{isTyping ? 'typing' : ''}</span>
                     </div>
                 </div>
                 <div className="right-header-icons">
+                    <FaVideo title='Start a video call' className='fa' />
                     <IoMdSearch className='fa' />
                     <BiDotsVerticalRounded className='fa' />
                 </div>
             </div>
             {/* <ScrollableFeed> */}
-            <div className="right-container" style={{backgroundImage: colorPallete && `linear-gradient(to bottom, ${colorPallete},gray, url('images/background.jpg')`}} ref={messagesEndRef} >
-                <p><i className="fa fa-lock" aria-hidden="true"></i>Messages are end-to-end encrypted. No one outside of this chat, not even whatsApp, can read or listen to them. Click to learn more.</p>
-                {msgLoad ? <p>Loading...</p> : messages.map(msg => (
-                    <MessageText
-                        // ref={messagesEndRef}
-                        key={msg._id}
-                        msg={msg}
-                        labelAll={labelAll}
-                        setLabelAll={setLabelAll}
-                        selectedLabel={selectedLabel}
-                        setSelectedLabel={setSelectedLabel}
-                        setMessages={setMessages}
-                    />
-                ))
-                }
+            {true ?
+                <MessageBody
+                    msgLoad={msgLoad}
+                    labelAll={labelAll}
+                    setLabelAll={setLabelAll}
+                    messages={messages}
+                    selectedLabel={selectedLabel}
+                    setSelectedLabel={setSelectedLabel}
+                    setMessages={setMessages}
+                    setReplyMode={setReplyMode}
+                /> : 
+                <MessageImgUpload />
+            }
+            {false ? null : !labelAll && !replyMode ? <div className="right-input-section" style={{ width: rightView !== null ? '46.4%' : '70%' }}>
+                <BsEmojiSmile className='fa' onClick={() => setEmojiMode(!emojiMode)} />
+                {emojiMode && <EmojiPicker className='fa' setMessage={setMessage} />}
+                <MdAttachFile className='fa' style={{ transform: "rotate(45deg)" }} />
+                <form onSubmit={submitMessage} className="input-section">
+                    <input value={message} onChange={e => {
+                        socket.emit('typing', chatId)
+                        setMessage(e.target.value)
+                    }
+                    } type="text" placeholder="Type a message" />
+                    <span className="online"></span>
+                </form>
+                <BiMicrophone className='fa' />
             </div>
-            {!labelAll ?
-                <div className="right-input-section" style={{ width: rightView !== null ? '46.4%' : '70%' }}>
-                    <BsEmojiSmile className='fa' />
-                    <MdAttachFile className='fa' style={{ transform: "rotate(45deg)" }} />
-                    <form onSubmit={submitMessage} className="input-section">
-                        <input value={message} onChange={e => {
-                            socket.emit('typing', chatId)
-                            setMessage(e.target.value)
-                        }
-                        } type="text" placeholder="Type a message" />
-                        <span className="online"></span>
-                    </form>
-                    <BiMicrophone className='fa' />
-                </div> :
-                <div className='right-input-section label-details'>
-                    <div className="left-label-details">
-                        <MdOutlineClear className='icon' onClick={() => {
-                            setLabelAll(false)
-                            setSelectedLabel([])
-                        }} />
-                        <span>{selectedLabel.length} selected</span>
+                : replyMode ?
+                    <div className="right-input-section" style={{ width: rightView !== null ? '46.4%' : '70%' }}>
+                        <div style={{ background: 'rgb(32, 44, 51)', display: 'flex', justifyContent: 'end', alignItems: 'center', position: 'absolute', width: '101%', left: 0, height: 70, bottom: 60 }}>
+                            <div style={{ height: '76%', display: 'flex', paddingLeft: 20, flexDirection: 'column', borderLeft: 'teal 7px solid', width: '88%', borderRadius: 7 }}>
+                                <b style={{ color: 'teal' }}>{repliedMessage?.sender._id === user._id ? 'You' : repliedMessage?.sender?.username}</b>
+                                <span style={{ color: 'white', opacity: 0.9 }}>{repliedMessage?.content}</span>
+                            </div>
+                            <MdCancel onClick={() => setReplyMode(false)} style={{ fontSize: 27, margin: '0px 20px', color: 'white', cursor: 'pointer' }} />
+                        </div>
+                        <BsEmojiSmile className='fa' onClick={() => setEmojiMode(!emojiMode)} />
+                        {emojiMode && <EmojiPicker className='fa' setMessage={setMessage} />}
+                        <MdAttachFile className='fa' style={{ transform: "rotate(45deg)" }} />
+                        <form onSubmit={submitMessage} className="input-section">
+                            <input value={message} onChange={e => {
+                                socket.emit('typing', chatId)
+                                setMessage(e.target.value)
+                            }
+                            } type="text" placeholder="Type a message" />
+                            <span className="online"></span>
+                        </form>
+                        <BiMicrophone className='fa' />
+                    </div> :
+                    <div className='right-input-section label-details'>
+                        <div className="left-label-details">
+                            <MdOutlineClear className='icon' onClick={() => {
+                                setLabelAll(false)
+                                setSelectedLabel([])
+                            }} />
+                            <span>{selectedLabel.length} selected</span>
+                        </div>
+                        <div className="right-label-details">
+                            <MdDelete onClick={deleteMessage} className='icon' />
+                            <FiStar className='icon' />
+                            <RiShareForwardLine className='icon' />
+                        </div>
                     </div>
-                    <div className="right-label-details">
-                        <MdDelete onClick={deleteMessage} className='icon' />
-                        <FiStar className='icon' />
-                        <RiShareForwardLine className='icon' />
-                    </div>
-                </div>
             }
             {/* </ScrollableFeed> */}
         </>

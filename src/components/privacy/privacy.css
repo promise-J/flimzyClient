@@ -2,6 +2,10 @@
   overflow-y: auto;
   /* padding: 0 0 0 10px; */
   /* background: rgb(32, 44, 51); */
+  padding: 5px;
+  flex: 28%;
+  background-color: rgb(17, 27, 33);
+  position: relative;
 }
 
 .privacy .privacy-item {

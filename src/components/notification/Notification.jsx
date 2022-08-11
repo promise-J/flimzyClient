@@ -26,15 +26,6 @@ const Notification = () => {
                 <input type="checkbox" />
                 <span>Desktop Alert</span>
             </div>
-            <div className="notif-item">
-                <input type="checkbox" />
-                <span>Message Preview</span>
-                {/* <span>Show message text in desktop alert</span> */}
-            </div>
-            <div className="notif-item">
-                <input type="checkbox" />
-                <span>Mute reaction notification</span>
-            </div>
         </div>
     )
 }

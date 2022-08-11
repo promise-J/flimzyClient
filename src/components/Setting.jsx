@@ -7,27 +7,23 @@ import { WiDayLightWind } from 'react-icons/wi'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLeftView, setShowTheme } from '../redux/appSlice'
 import './setting.css'
-const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
-
 
 const Setting = () => {
     const about = 'This is where your status is supposed to go so enjoy'
-
-    const PF = REACT_APP_BACKEND_URL
 
     const dispatch = useDispatch()
     const {user} = useSelector(state=> state.user)
 
     return (
-        <div className='left setting profile-sidebar'>
+        <div className='left setting'>
             <div className="setting-header">
                 <BiArrowBack className='icon' onClick={() => dispatch(setLeftView('chat'))} style={{ cursor: 'pointer' }} />
                 <h4>Setting</h4>
             </div>
             <div className="setting-header-offset"></div>
-            <div className="setting-about-display">
+            <div className="setting-about-display" style={{cursor: 'pointer'}} onClick={()=> dispatch(setLeftView('profile'))}>
                 <div className='about-img'>
-                <img src={PF + '/images/' + user.picture} alt=".." />
+                <img src={user?.picture} alt=".." />
                 </div>
                 <div className="about-text">
                     <span className="username">{user?.username}</span>

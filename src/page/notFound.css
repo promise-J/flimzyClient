@@ -1,0 +1,49 @@
+.notFound{
+    background: white;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notFoundWrapper{
+    width: 90%;
+    height: 90%;
+    display: flex;
+}
+
+.notFoundWrapper .notFoundLeft, .notFoundWrapper .notFoundRight{
+    flex: 1;
+    margin: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.notFoundWrapper .notFoundRight{
+    display: flex;
+    flex-direction: column;
+}
+.notFoundWrapper .notFoundRight button{
+    background: teal;
+    padding: 10px 20px;
+    font-size: 17px;
+    outline: none;
+    border: none;
+    color: white;
+    margin: 20px 0 0 0;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.notFoundWrapper .notFoundLeft img{
+    height: 80%;
+    width: 80%;
+    object-fit: cover;
+}
+
+.notFound .link{
+    color: inherit;
+    text-decoration: none;
+}

@@ -426,38 +426,39 @@
   /* margin-left: auto; */
 }
 .right .right-container .message-box .message-pop{
-  height: 120px;
-  width: 120px;
+  background-color: rgb(51, 59, 65);
+  height: 280px;
+  width: 220px;
   position: absolute;
-  top: -70px;
-  /* left: 1025px; */
-  left: -200%;
   display: flex;
   flex-direction: column;
-  transition: 1s ease-in-out all;
-  border-radius: 5px;
-  padding: 1px;
 }
+.right .right-container .message-box .message-pop:hover .icon{
+  display: block;
+}
+
 .right .right-container .message-box .message-pop .icon{
   color: white;
   position: absolute;
   z-index: 15;
   top: -15px;
   right: -15px;
-  font-size: 18px;
   cursor: pointer;
+  display: none;
+  font-size: 25px;
 }
 
 .right .right-container .message-box .message-pop li{
   list-style: none;
   background: rgb(50, 66, 78);
-  margin: 0 1px;
+  /* margin: 0 2px; */
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   flex: 1;
   z-index: 10;
+  font-size: 17px;
 }
 .right .right-container .message-box .message-pop li:hover{
   background-color: rgb(24,34,41);
@@ -753,7 +754,28 @@
   height: 110px;
 }
 
-.profile-sidebar-img .image {
+.profile-sidebar .profile-sidebar-img:hover .profile-edit-img{
+  z-index: 2;
+  display: flex;
+}
+
+.profile-sidebar .profile-sidebar-img .profile-edit-img{
+  background-color: white;
+  position: absolute;
+  top: 33%;
+  transition: 0.3s all ease-in-out;
+  height: 93%;
+  width: 40%;
+  left: 24.5%;
+  border-radius: 50%;
+  display: none;
+  opacity: .5;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile-sidebar-img img{
   height: 180px !important;
   width: 180px !important;
   border-radius: 50%;
@@ -793,6 +815,7 @@
   margin-top: 12px;
   padding: 25px;
 }
+
 .profile-sidebar .profile-details span:nth-child(1) {
   color: white;
   font-size: 18px;

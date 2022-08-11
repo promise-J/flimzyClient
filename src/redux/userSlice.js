@@ -8,7 +8,8 @@ const initialState = {
     isLogged: Boolean(logged),
     isLoading: false,
     chatId: null,
-    userList: []
+    userList: [],
+    userRequest: []
 }
 
 const userSlice = createSlice({
@@ -40,10 +41,13 @@ const userSlice = createSlice({
         },
         setUsers: (state, action)=>{
             state.userList = action.payload
+        },
+        setUserRequest: (state, action)=>{
+            state.userRequest = action.payload
         }
     }
 })
 
-export const {login, setUser, setChatId, logout, setUsers} = userSlice.actions
+export const {login, setUser, setChatId, logout, setUsers, setUserRequest} = userSlice.actions
 
 export default userSlice.reducer

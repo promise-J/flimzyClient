@@ -15,6 +15,13 @@ export const makeRequest = axios.create({
     }
 })
 
+export const imgRequest = axios.create({
+    baseUrl: BASE_URL,
+    headers: {
+        "Content-Type": "multipart/form-data"
+    }
+})
+
 
 
 export const logOUT = ()=>{

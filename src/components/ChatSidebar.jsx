@@ -1,21 +1,17 @@
 import React, { useState } from 'react'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
-import { BsFilter } from 'react-icons/bs'
+import { BsChatLeftTextFill, BsFilter } from 'react-icons/bs'
 import { HiOutlineStatusOnline } from 'react-icons/hi'
-import { IoIosArrowUp, IoMdSearch } from 'react-icons/io'
 import { useDispatch, useSelector } from 'react-redux'
-import { toast } from 'react-toastify'
-import { makeRequest } from '../utils/apiCalls'
-import ProfilePic from '../images/profileBlank.png'
+import { IoMdSearch } from 'react-icons/io'
 import ChatList from './ChatList'
-import { AiOutlineDown } from 'react-icons/ai'
 import { logout } from '../redux/userSlice'
-import { useNavigate } from 'react-router-dom'
-import { setCallMode, setLeftView, setStatusMode } from '../redux/appSlice'
-import { addChatList, setHeaderToggle, setShowGroupModal } from '../redux/chatSlice'
+import { Link, useNavigate } from 'react-router-dom'
+import { setLeftView, setStatusMode } from '../redux/appSlice'
+import {  setHeaderToggle, setShowGroupModal } from '../redux/chatSlice'
 import ProfilePopUp from './modals/ProfilePopUp'
-import { FaVideo } from 'react-icons/fa'
-const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+import AllUsersView from './AllUsersView'
+import FriendRequest from './FriendRequest'
 
 
 
@@ -23,45 +19,34 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    const [showExtra, setShowExtra] = useState(false)
+   
     const [searchName, setSearchName] = useState('')
-    const { user, userList } = useSelector(state => state.user)
+    const { user } = useSelector(state => state.user)
     const { chatList, headerToggle, popImg } = useSelector(state => state.chat)
-    const PF = REACT_APP_BACKEND_URL
 
 
     const logoutRequest = () => {
         localStorage.removeItem('secretToken')
         dispatch(logout())
-        navigate('/')
+        navigate('/signup')
     }
 
-    const addChat = async (chatId, chatSender) => {
-        try {
-            const res = await makeRequest.get(`/chat/${chatId}?chatSender=${chatSender}`)
-            if (res.status === 200) {
-                dispatch(addChatList(res.data))
-                toast.success('User Added')
-            } else {
-                toast.info(`You already added ${chatSender}`)
-            }
-        } catch (error) {
-            toast.error(error.response.data)
-        }
-    }
+   
     // const result = chatList.forEach(chat=> chat.users.filter(user=> console.log(user, 'me')))
     // console.log(result, 'result here')
+    console.log(chatList, 'chat list')
 
     return (
         <div className="left">
             <div className="left-header" style={{ position: 'relative' }}>
                 <ProfilePopUp imgPop={popImg} />
-                <img title='Your Profile' style={{ cursor: 'pointer' }} onClick={() => dispatch(setLeftView('profile'))} src={PF + '/images/' + user?.picture} alt="..." />
+                <img title='Your Profile' style={{ cursor: 'pointer' }} onClick={() => dispatch(setLeftView('profile'))} src={user?.picture} alt="..." />
                 <div className="left-header-icons">
-                    <HiOutlineStatusOnline title='Create Status' onClick={()=> dispatch(setStatusMode())} className='fa' />
-                    <FaVideo title='Start a video call' onClick={()=> dispatch(setCallMode())} className='fa' />
-                    {/* <BsChatLeftTextFill className='fa' style={{ fontSize: 16 }} /> */}
-                    <BiDotsVerticalRounded title='See more' className='fa' onClick={() => dispatch(setHeaderToggle(!headerToggle))} />
+                    <Link to='/status'>
+                    <HiOutlineStatusOnline style={{fontSize: 26}} title='Create Status' onClick={()=> dispatch(setStatusMode())} className='fa' />
+                    </Link>
+                    <BsChatLeftTextFill className='fa' style={{ fontSize: 24 }} />
+                    <BiDotsVerticalRounded style={{fontSize: 26}} title='See more' className='fa' onClick={() => dispatch(setHeaderToggle(!headerToggle))} />
                 </div>
                 <ul style={{ display: headerToggle ? 'block' : 'none' }}>
                     <li onClick={() => {dispatch(setShowGroupModal(true)); dispatch(setHeaderToggle(false))}}>New Group</li>
@@ -96,7 +81,7 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
                     </div>
                 </div> */}
                 {
-                    chatList.length < 1 ? <p style={{color: 'white', margin: '10px 0 10px 20px'}}>Choose a user to chat below</p> : chatList.filter(user => user.chatName.toLowerCase().includes(searchName.toLowerCase())).map(chat => (
+                    chatList?.length < 1 ? <p style={{color: 'white', margin: '10px 0 10px 20px'}}>Choose a user to chat below</p> : chatList?.filter(user => user?.chatName?.toLowerCase().includes(searchName.toLowerCase())).map(chat => (
                         <ChatList
                             setNotifications={setNotifications}
                             notifications={notifications}
@@ -223,26 +208,8 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
                         </div>
                     </div>
                 </div> */}
-                <div style={{ margin: 10, width: '93%', display: 'flex', alignItems: 'center', padding: 8, justifyContent: 'space-between' }}>
-                    <p style={{ color: 'white', opacity: 0.6 }}>Invite a friend</p>
-                    {!showExtra ?
-                        <span style={{ color: 'white', opacity: 0.6, cursor: 'pointer' }} onClick={() => setShowExtra(true)}><AiOutlineDown /> </span> :
-                        <span style={{ color: 'white', opacity: 0.6, cursor: 'pointer' }} onClick={() => setShowExtra(false)}><IoIosArrowUp /> </span>
-                    }
-                </div>
-                <div style={{ width: '100%', display: showExtra ? 'block' : 'none', transition: '0.3s all ease-in-out' }}>
-                    {userList.filter(user => user.username.toLowerCase().includes(searchName)).map(user => (
-                        <div key={user?._id} className="left-header-chat">
-                            <img src={ProfilePic} alt="" />
-                            <div className="left-header-chat-details">
-                                <span className="chat-name">{user?.username}</span>
-                            </div>
-                            <span style={{ background: 'green', color: 'white', padding: '2px 10px', marginRight: 18, fontSize: 10, borderRadius: 4 }} onClick={() => addChat(user._id, user?.username)}>Add</span>
-                        </div>
-                    ))
-                    }
-                </div>
-
+                <AllUsersView socket={socket} searchName={searchName} />
+                <FriendRequest socket={socket} searchName={searchName} />
             </div>
         </div>
     )

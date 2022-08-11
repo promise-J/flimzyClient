@@ -1,0 +1,53 @@
+.createStatus{
+    width: 100;
+    flex: 4;
+    /* background-color: rgb(11,20,26); */
+    background: black;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 20px 0 20px;
+}
+
+.createStatusWrapper{
+    /* height: 100%;
+    width: 100%; */
+    flex: 8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: purple;
+    padding: 20px;
+    position: relative;
+    width: 100%;
+}
+
+.create-status-bottom{
+    flex: 1.4;
+   display: flex;
+   align-items: center;
+   padding: 0 12px;
+   border-top: 1px solid rgb(21, 37, 48);
+   /* position: relative; */
+   width: 100%;
+}
+
+.create-status-bottom input{
+    height: 45%;
+    flex: 1;
+    padding: 0 20px;
+    font-size: 16px;
+    border-radius: 10px;
+    background-color: transparent;
+    color: white;
+}
+.createStatus .createStatusTextWrapper{
+    height: 90%;
+    width: 50vw;
+    color: white;
+    padding: 30px;
+    text-align: center;
+    font-size: 3.2em;
+    flex-wrap: wrap;
+    word-wrap: break-word;
+    word-break: break-all;
+}

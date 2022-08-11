@@ -4,7 +4,8 @@ import {createSlice} from '@reduxjs/toolkit'
 const initialState = {
     messageLoad: false,
     singleLoad: false,
-    selectedMessage: null
+    selectedMessage: null,
+    repliedMessage: null,
 }
 
 const messageSlice = createSlice({
@@ -19,10 +20,13 @@ const messageSlice = createSlice({
         },
         setSelectedMessage: (state, action)=>{
             state.selectedMessage = action.payload
-        }
+        },
+        setRepliedMessage: (state, action)=>{
+            state.repliedMessage = action.payload
+        },
     }
 })
 
-export const {setMessageLoad, setSingleLoad, setSelectedMessage} = messageSlice.actions
+export const {setMessageLoad, setIncomingCall, setSingleLoad, setPeerInstance, setPeerId, setSelectedMessage, setRepliedMessage} = messageSlice.actions
 
 export default messageSlice.reducer

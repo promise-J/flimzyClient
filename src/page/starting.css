@@ -1,0 +1,131 @@
+.starting{
+    height: 100vh;
+    width: 100vw;
+    background-color: white;
+}
+
+.starting h1{
+    font-size: 60px;
+    text-align: center;
+}
+.starting main .stages{
+    height: 80px;
+    width: 40%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.starting main .stages .stage{
+    height: 60px;
+    width: 60px;
+    border: 1px solid rgb(66, 66, 64);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 24px;
+    /* background: green; */
+    transition: .3s ease-in-out all;
+    color: black;
+}
+
+.starting main .contentFormContainer{
+    height: 58vh;
+    width: 70%;
+    margin: 10px auto;
+    padding: 15px;
+    position: relative;
+}
+.starting main .contentFormContainer button{
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 50px;
+    font-weight: 600;
+    color: white;
+    background-color: rgb(6, 190, 6);
+}
+.starting main .contentFormContainer button:nth-child(1){
+    left: 15px;
+}
+.starting main .contentFormContainer button:nth-child(2){
+    right: 15px;
+}
+.starting main .contentFormContainer form{
+    height: 95%;
+    width: 80%;
+    margin: auto;
+}
+.starting main .contentFormContainer form img{
+    height: 120px;
+    width: 120px;
+    object-fit: contain;
+    margin-left: 30px;
+    border-radius: 15px;
+}
+.starting main .contentFormContainer form .formItem{
+    margin: 10px 0;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 20px;
+}
+.starting main .contentFormContainer form .formItem input{
+    width: 70%;
+    padding: 10px;
+}
+
+@keyframes animate3 {
+    25%{
+        transform: translateX(-25px);
+    }
+    50%{
+        transform:  translateX(-50px);
+    }
+    75%{
+        transform: translateX(-75px);
+    }
+    100%{
+        transform:  translateX(-160px);
+        width: 70px;
+        height: 70px;
+        z-index: 5;
+        background: green;
+        color: white;
+    }
+}
+
+@keyframes animate1 {
+    25%{
+        transform: translateX(25px);
+    }
+    50%{
+        transform:  translateX(50px);
+    }
+    75%{
+        transform: translateX(75px);
+    }
+    100%{
+        transform:  translateX(160px);
+    }
+}
+
+@keyframes tickBlink {
+    0%{
+        transform: scale(0.8);
+    }
+    50%{
+        transform: scale(1.2);
+        
+    }100%{
+        transform: scale(0.9);
+    }
+}

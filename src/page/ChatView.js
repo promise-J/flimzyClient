@@ -8,7 +8,7 @@ import { ProfileSidebar } from '../components/ProfileSidebar'
 import RightSidebar from '../components/RightSidebar'
 import MessageSection from '../components/MessageSection'
 import MessageInfoSidebar from '../components/MessageInfoSidebar'
-import { setUsers } from '../redux/userSlice'
+import { setUserRequest, setUsers } from '../redux/userSlice'
 import { endChatLoad, setChatObject, setChats, setHeaderToggle, setShowImg, startChatLoad } from '../redux/chatSlice'
 import LoadAnimate from '../components/LoadAnimate'
 import io from 'socket.io-client'
@@ -21,10 +21,10 @@ import ThemeModal from '../components/modals/ThemeModal'
 import ChatWallpaper from '../components/chatWallpaper/ChatWallpaper'
 import RequestAccount from '../components/requestAccount/RequestAccount'
 import Help from '../components/help/Help'
-import CallPage from './CallPage'
-import StatusPage from './StatusPage'
+// import StatusPage from './StatusPage'
 
-const END_POINT = process.env.REACT_APP_BACKEND_URL
+// const END_POINT = process.env.REACT_APP_BACKEND_URL
+const END_POINT = 'http://localhost:5000'
 
 
 const ChatView = () => {
@@ -37,7 +37,7 @@ const ChatView = () => {
 
 
     const { chatId, user } = useSelector(state => state.user)
-    const { rightView, showTheme, leftView, colorPallete, callMode, statusMode } = useSelector(state => state.app)
+    const { rightView, showTheme, leftView, colorPallete } = useSelector(state => state.app)
     const { showGroupModal, showImg, chatLoading, headerToggle } = useSelector(state => state.chat)
 
     // const [socket, setSocket] = useState(null)
@@ -49,8 +49,8 @@ const ChatView = () => {
         }
         user && initSocket()
     }, [user, socket])
-    
-    useEffect(()=>{
+
+    useEffect(() => {
         socket.on('receive message', (newMessage) => {
             if (chatId !== newMessage.chat._id) {
                 //send a notification to the user
@@ -58,8 +58,6 @@ const ChatView = () => {
             }
         })
     })
-    // console.log(notifications, 'chatview')
-    
 
     useEffect(() => {
         const userChats = async () => {
@@ -83,11 +81,13 @@ const ChatView = () => {
     }, [chatId, dispatch])
 
     useEffect(() => {
-        
+
         const getListUsers = async () => {
             try {
                 const res = await makeRequest.get('/user/getUsers')
+                const reqs = await makeRequest.get('/user/get/request')
                 dispatch(setUsers(res.data))
+                dispatch(setUserRequest(reqs.data))
             } catch (error) {
                 if (error?.response?.data?.name === 'TokenExpiredError') {
                     localStorage.removeItem('secretToken')
@@ -104,10 +104,10 @@ const ChatView = () => {
         if (leftToggleHeader) {
             setLeftToggleHeader(false)
         }
-        if(showImg){
+        if (showImg) {
             dispatch(setShowImg(false))
         }
-        if(headerToggle){
+        if (headerToggle) {
             dispatch(setHeaderToggle(false))
         }
     }
@@ -119,36 +119,35 @@ const ChatView = () => {
     // url('images/background.jpg')
     return (
         <>
-        <div className="container" onClick={closeAll}>
-            {showGroupModal && <GroupModal />}
-            {showTheme && <ThemeModal />}
-            {leftView ==='setting' ? <Setting /> : 
-            leftView === 'profile' ? <ProfileSidebar /> : 
-            leftView==='privacy' ? <Privacy /> :  leftView==='notification' ?
-             <Notification /> : leftView==='security' ? <Security />  : leftView==='chatWallpaper' ?
-              <ChatWallpaper /> : leftView==='requestAccount' ? <RequestAccount /> : leftView==='help' ? <Help /> 
-             : <ChatSidebar setNotifications={setNotifications} notifications={notifications} socket={socket} />}
-            <div className="right" style={{ flex: rightView !== null ? '50%' : '70%', zIndex: 23, background: colorPallete && colorPallete }}>
-                {chatId ?
-                    <MessageSection notifications={notifications} setNotifications={setNotifications} socket={socket} user={user} setOpenProfile={setOpenProfile} openProfile={openProfile} />
-                    :
-                    <>
-                        <div style={{ height: 'calc(100%)', width: '100%', flexDirection: 'column', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                            <h2 style={{ color: 'white', fontSize: 49 }}>Welcome To Flimzy</h2>
-                            <p style={{ color: 'white', opacity: 0.7, fontSize: 20 }}>No chat is selected</p>
-                        </div>
+            <div className="container" onClick={closeAll}>
+                {showGroupModal && <GroupModal />}
+                {showTheme && <ThemeModal />}
+                {leftView === 'setting' ? <Setting /> :
+                    leftView === 'profile' ? <ProfileSidebar /> :
+                        leftView === 'privacy' ? <Privacy /> : leftView === 'notification' ?
+                            <Notification /> : leftView === 'security' ? <Security /> : leftView === 'chatWallpaper' ?
+                                <ChatWallpaper /> : leftView === 'requestAccount' ? <RequestAccount /> : leftView === 'help' ? <Help />
+                                    : <ChatSidebar setNotifications={setNotifications} notifications={notifications} socket={socket} />}
+                <div className="right" style={{ flex: rightView !== null ? '50%' : '70%', zIndex: 23, background: colorPallete && colorPallete }}>
+                    {chatId ?
+                        <MessageSection notifications={notifications} setNotifications={setNotifications} socket={socket} user={user} setOpenProfile={setOpenProfile} openProfile={openProfile} />
+                        :
+                        <>
+                            <div style={{ height: 'calc(100%)', width: '100%', flexDirection: 'column', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                                <h2 style={{ color: 'white', fontSize: 49 }}>Welcome To Flimzy</h2>
+                                <p style={{ color: 'white', opacity: 0.7, fontSize: 20 }}>No chat is selected</p>
+                            </div>
 
-                        {/* <div className='right-container'>
+                            {/* <div className='right-container'>
             </div> */}
-                    </>
+                        </>
+                    }
+                </div>
+                {rightView === 'messageInfo' ? <MessageInfoSidebar /> : rightView === 'profile' ?
+                    <RightSidebar /> : null
                 }
             </div>
-            {rightView === 'messageInfo' ? <MessageInfoSidebar /> : rightView === 'profile' ?
-                <RightSidebar /> : null
-            }
-        </div>
-        {callMode && <CallPage />}
-        {statusMode && <StatusPage />}
+            {/* {statusMode && <StatusPage />} */}
         </>
     )
 }

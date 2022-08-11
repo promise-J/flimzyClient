@@ -1,4 +1,288 @@
+.statusPage{
+    background: black;
+    /* top: 0; */
+    /* z-index: 60; */
+    height: 100vh;
+    width: 100vw;
+}
+
+.status-wrapper{
+    position: relative;
+    /* padding: 4px; */
+    height: 100%;
+    width: 100%;
+}
+
 .statusBody{
-    height: calc(100vh - 50px);
-    width: 95vw;
+    height: 100%;
+    /* width: 95.3vw; */
+    width: 100%;
+    display: flex;
+    padding: 10px;
+}
+
+.status-sidebar{
+    flex: 1.8;
+    background: rgb(30,38,44);
+}
+
+.status-sidebar-header{
+    height: 140px;
+    width: 100%;
+    display: flex;
+}
+.status-sidebar-header .user-img{
+    height: 100%;
+    width: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.status-sidebar-header img{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+}
+.status-sidebar-header .add-status{
+    height: 100%;
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.status-sidebar-header .user-status{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    justify-content: center;
+    color: white;
+}
+.status-sidebar-header .user-status span{
+    margin: 2px;
+}
+.status-sidebar-header .user-status span:nth-child(1){
+    font-size: 24px;
+    font-weight: 500;
+}
+.status-sidebar-header .user-status span:nth-child(2){
+    opacity: .5;
+    font-size: 13px;
+}
+
+.status-sidebar-body{
+    height: calc(100% - 140px);
+    overflow-y: auto;
+    border-top: 1px solid gray;
+    padding: 0 5px;
+}
+.status-sidebar-body p{
+    color: white;
+    margin: 15px 0 15px 20px;
+}
+
+.status-post{
+    height: 75px;
+    margin: 2px 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    cursor: pointer;
+}
+.status-post:hover{
+    background: rgb(41, 51, 59);
+}
+
+.status-post .status-image{
+    width: 70px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-post .status-image img{
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+}
+.status-post .status-desc{
+    height: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 15px;
+}
+.status-post .status-desc span:nth-child(1){
+    color: white;
+    font-size: 20px;
+}
+.status-post .status-desc span:nth-child(2){
+    color: white;
+    font-size: 13px;
+    opacity: 0.6;
+    margin-top: 5px;
+}
+
+.status-main{
+    flex: 4;
+    background-color: rgb(11,20,26);
+}
+
+.no-status{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.no-status .status-circular{
+    height: 120px;
+    width: 120px;
+    border: gray 7px solid;
+    border-radius: 50%;
+    margin-bottom: 42px;
+    position: relative;
+}
+.no-status .status-circular div{
+    height: 18px;
+    width: 20px;
+    background-color: rgb(11,20,26);
+    position: absolute;
+}
+
+.no-status .status-circular div:nth-child(1){
+    left: 47%;
+    bottom: -10px;
+}
+.no-status .status-circular div:nth-child(2){
+    left: -10px;
+    transform: rotate(-55deg);
+    top: 24%;
+}
+.no-status .status-circular div:nth-child(3){
+    top: 24%;
+    right: -7px;
+    transform: rotate(50deg);
+}
+
+.no-status p{
+    color: white;
+    font-size: 20px;
+}
+
+.view-status{
+    background-color: rgb(11,20,26);
+    position: relative;
+}
+
+.view-status-top{
+    height: calc(100vh - 130px);
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+.view-status-top .view-status-progress{
+    /* background-color: black; */
+    position: absolute;
+    /* border: white 1px solid; */
+    opacity: 0.8;
+    top: 0;
+    height: 50px;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    left: 50px;
+}
+.view-status-top .view-status-progress .single-progress{
+    height: 10px;
+    border-radius: 7px;
+    border: 1px solid rgb(82, 81, 81);
+    flex: 1;
+    margin: 0 4px;
+    background-color: transparent;
+}
+.view-status-top .view-status-progress .single-progress .single-progress-inner{
+    width: 0%;
+    height: 100%;
+    background-color: white;
+    border-radius: 7px;
+    transition: all 0.21s ease-in;
+}
+.view-status-top-container{
+    height: 100%;
+    width: 70%;
+}
+.view-status-top-container img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+.view-status-top-container .view-status-main-text{
+    background-color: blue;
+    width: 90%;
+    height: 90%;
+    color: white;
+    padding: 30px;
+    text-align: center;
+    font-size: 3em;
+    flex-wrap: wrap;
+    word-wrap: break-word;
+    margin-top: 65px;
+    word-break: break-all;
+}
+.view-status-top-text{
+    background-color: rgb(11,20,26);
+    height: 50px;
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.view-status-bottom{
+    /* background-color: white; */
+    /* opacity: 0.2; */
+    height: 90px;
+    width: 100%;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    bottom: 0;
+    padding: 0 20px;
+}
+
+.view-status-bottom input{
+    height: 50px;
+    background-color: transparent;
+    color: white;
+    padding: 8px 15px;
+    font-size: 17px;
+    flex: 1;
+    border-radius: 7px;
+}
+
+
+@keyframes statusSlide {
+    0%{
+        width: 0%;
+    }
+    25%{
+        width: 25%;
+    }
+    50%{
+        width: 50%;
+    }
+    75%{
+        width: 75%;
+    }
+    100%{
+        width: 100%;
+    }
 }
