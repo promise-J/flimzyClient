@@ -33,6 +33,9 @@ const Starting = () => {
         setRegState(state => state - 1)
     }
     const nextStage = async () => {
+        if(regStage===2 && cPassword !== password){
+            return toast.error('Passwords must match to continue')
+        }
         if (regStage >= 3) {
             if (cPassword !== password) return toast.error('Passwords must match')
             if(!username || !password || !email || !gender || !about) return toast.error('Field must not be empty')

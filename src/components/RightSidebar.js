@@ -14,7 +14,7 @@ import { makeRequest } from '../utils/apiCalls'
 import { setChatId } from '../redux/userSlice'
 import { toast } from 'react-toastify'
 import { setChats } from '../redux/chatSlice'
-const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+// const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 
 
@@ -24,7 +24,7 @@ const RightSidebar = () => {
     const { rightView } = useSelector(state => state.app)
     const { chatId, user: currentUser } = useSelector(state => state.user)
     const { chatList, chatObject } = useSelector(state => state.chat)
-    const PF = REACT_APP_BACKEND_URL
+    // const PF = REACT_APP_BACKEND_URL
 
     const deleteChat = async(chatId)=>{
         try {

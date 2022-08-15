@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
-import ProfilePic from '../images/profileBlank.png'
 import { AiOutlineDown } from 'react-icons/ai'
 import { useDispatch, useSelector } from 'react-redux'
 import { makeRequest } from '../utils/apiCalls'
-import { addChatList, setChats } from '../redux/chatSlice'
+import { addChatList } from '../redux/chatSlice'
 import { toast } from 'react-toastify'
 import { setUserRequest } from '../redux/userSlice'
 

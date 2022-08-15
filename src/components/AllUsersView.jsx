@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { IoIosArrowUp } from 'react-icons/io'
 import ProfilePic from '../images/profileBlank.png'
 import { AiOutlineDown } from 'react-icons/ai'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { makeRequest } from '../utils/apiCalls'
 import { toast } from 'react-toastify'
 
@@ -10,7 +10,7 @@ import { toast } from 'react-toastify'
 
 const AllUsersView = ({searchName}) => {
     const [showExtra, setShowExtra] = useState(false)
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
 
     const { userList } = useSelector(state => state.user)
 

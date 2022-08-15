@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
-import Img from '../images/profileBlank.png'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
-import { MdCancel, MdEmojiEmotions, MdSend, MdSignalWifiStatusbarConnectedNoInternet } from 'react-icons/md'
+import { MdCancel, MdEmojiEmotions, MdSend } from 'react-icons/md'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCurrentStatusArray, setStatusIndex } from '../redux/statusSlice'
 import { useEffect } from 'react'

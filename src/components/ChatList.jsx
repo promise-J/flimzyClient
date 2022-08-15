@@ -6,7 +6,7 @@ import { makeRequest } from '../utils/apiCalls'
 import {format} from 'timeago.js'
 import { setPopImg, setShowImg } from '../redux/chatSlice'
 // import { setSelectedChatCompare } from '../redux/chatSlice'
-const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+// const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
 
 const ChatList = ({chat, notifications, setNotifications}) => {
@@ -15,7 +15,7 @@ const ChatList = ({chat, notifications, setNotifications}) => {
     const {user: currentUser} = useSelector(state=> state.user)
     const {singleLoad} = useSelector(state=> state.message)
     const [lastMsg, setLastMsg] = useState('')
-    const PF = REACT_APP_BACKEND_URL
+    // const PF = REACT_APP_BACKEND_URL
     
 
     // useEffect(()=>{

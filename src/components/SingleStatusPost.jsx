@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { setCurrentStatusArray, setCurrentStatusSlide, setStatusIndex } from '../redux/statusSlice'
 // import Img from '../images/profileBlank.png'
 

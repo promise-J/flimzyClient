@@ -9,7 +9,7 @@ import { makeRequest } from '../utils/apiCalls'
 import { FiStar } from 'react-icons/fi'
 import { RiShareForwardLine } from 'react-icons/ri'
 import { toast } from 'react-toastify'
-import { setCallMode, setRightView } from '../redux/appSlice'
+import { setRightView } from '../redux/appSlice'
 import { useDispatch, useSelector } from 'react-redux'
 // import { setNotifications } from '../redux/chatSlice'
 import { setRepliedMessage, setSingleLoad } from '../redux/messageSlice'
@@ -70,7 +70,7 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
     const submitMessage = async (e) => {
         e.preventDefault()
         if (!message) return
-        const formData = new FormData()
+        // const formData = new FormData()
         // formData.append('image', messageImg)
         try {
             if(repliedMessage){
