@@ -22,7 +22,6 @@ const ThirdForm = ({registerUser, setRegisterUser}) => {
       }
 
 
-      console.log(registerUser, 'the prev')
     return (
         <form>
               <div className="formItem">

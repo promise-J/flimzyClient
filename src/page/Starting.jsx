@@ -8,6 +8,7 @@ import ThirdForm from '../components/Forms/ThirdForm'
 import Header from '../components/Header'
 import './starting.css'
 import {TiTickOutline} from 'react-icons/ti'
+import {imgRequest} from '../utils/apiCalls'
 const PF = process.env.REACT_APP_BACKEND_URL
 
 
@@ -44,7 +45,7 @@ const Starting = () => {
             try {
                 if (picture) {
                     setLoading(true)
-                    const res = await axios.post(PF + '/img', formData)
+                    const res = await imgRequest.post(PF + '/img', formData)
                     if (res.status === 200) {
                         await axios.post(PF + '/user/register', {
                             email,
@@ -74,6 +75,7 @@ const Starting = () => {
                     navigate('/signup')
                 }
             } catch (error) {
+                console.log(error, 'the bastard')
                 setLoading(false)
                 setRegState(2)
                 toast.error(error.response.data)

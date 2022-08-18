@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import { BiDotsVerticalRounded } from 'react-icons/bi'
-import { BsChatLeftTextFill, BsFilter } from 'react-icons/bs'
-import { HiOutlineStatusOnline } from 'react-icons/hi'
+import { BiDotsVerticalRounded, BiMessageSquareEdit } from 'react-icons/bi'
 import { useDispatch, useSelector } from 'react-redux'
 import { IoMdSearch } from 'react-icons/io'
 import ChatList from './ChatList'
@@ -10,8 +8,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { setLeftView, setStatusMode } from '../redux/appSlice'
 import {  setHeaderToggle, setShowGroupModal } from '../redux/chatSlice'
 import ProfilePopUp from './modals/ProfilePopUp'
-import AllUsersView from './AllUsersView'
-import FriendRequest from './FriendRequest'
+import { MdOutlineNotificationsActive } from 'react-icons/md'
 
 
 
@@ -22,6 +19,7 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
    
     const [searchName, setSearchName] = useState('')
     const { user } = useSelector(state => state.user)
+    const { themeBg } = useSelector(state => state.app)
     const { chatList, headerToggle, popImg } = useSelector(state => state.chat)
 
 
@@ -34,37 +32,100 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
    
     // const result = chatList.forEach(chat=> chat.users.filter(user=> console.log(user, 'me')))
     // console.log(result, 'result here')
-    console.log(chatList, 'chat list')
+    // console.log(chatList, 'chat list')
 
     return (
-        <div className="left">
-            <div className="left-header" style={{ position: 'relative' }}>
-                <ProfilePopUp imgPop={popImg} />
-                <img title='Your Profile' style={{ cursor: 'pointer' }} onClick={() => dispatch(setLeftView('profile'))} src={user?.picture} alt="..." />
-                <div className="left-header-icons">
-                    <Link to='/status'>
-                    <HiOutlineStatusOnline style={{fontSize: 26}} title='Create Status' onClick={()=> dispatch(setStatusMode())} className='fa' />
-                    </Link>
-                    <BsChatLeftTextFill className='fa' style={{ fontSize: 24 }} />
-                    <BiDotsVerticalRounded style={{fontSize: 26}} title='See more' className='fa' onClick={() => dispatch(setHeaderToggle(!headerToggle))} />
-                </div>
-                <ul style={{ display: headerToggle ? 'block' : 'none' }}>
-                    <li onClick={() => {dispatch(setShowGroupModal(true)); dispatch(setHeaderToggle(false))}}>New Group</li>
-                    <li onClick={() => {dispatch(setLeftView('profile')); dispatch(setHeaderToggle(false))}}>Profile</li>
-                    <li onClick={() => {dispatch(setLeftView('setting')); dispatch(setHeaderToggle(false))}}>Settings</li>
-                    <li onClick={logoutRequest}>Log out</li>
-                </ul>
-            </div>
-            <div className="left-header-search">
-                <div className="left-header-search-item">
-                    <IoMdSearch className='fa' />
-                    <input onChange={(e) => setSearchName(e.target.value)} type="text" value={searchName} />
-                    <span className="right-header-online"></span>
-                    <BsFilter className='fa' />
-                </div>
-            </div>
-            <div className="left-header-container">
-                {/* <div className="left-header-chat">
+      <div className="left">
+        <div className="left-header" style={{ position: "relative" }}>
+          <ProfilePopUp imgPop={popImg} />
+          <img
+            title="Your Profile"
+            style={{ cursor: "pointer" }}
+            onClick={() => dispatch(setLeftView("profile"))}
+            src={user?.picture}
+            alt="..."
+          />
+          <div className="left-header-icons">
+            <Link to="/status">
+              <BiMessageSquareEdit
+                style={{ fontSize: 17, color: themeBg.color }}
+                title="Create Status"
+                onClick={() => dispatch(setStatusMode())}
+                className="fa"
+              />
+            </Link>
+            <MdOutlineNotificationsActive
+              className="fa"
+              style={{ fontSize: 17 }}
+              title="Notifications"
+              onClick={() => dispatch(setLeftView("notification"))}
+            />
+            <BiDotsVerticalRounded
+              style={{ fontSize: 17 }}
+              title="See more"
+              className="fa"
+              onClick={() => dispatch(setHeaderToggle(!headerToggle))}
+            />
+          </div>
+          <ul style={{ display: headerToggle ? "block" : "none", background: themeBg.bg }}>
+            <li
+              onClick={() => {
+                dispatch(setShowGroupModal(true));
+                dispatch(setHeaderToggle(false));
+              }}
+            >
+              New Group
+            </li>
+            <li
+              onClick={() => {
+                dispatch(setLeftView("profile"));
+                dispatch(setHeaderToggle(false));
+              }}
+            >
+              Profile
+            </li>
+            <li
+              onClick={() => {
+                dispatch(setLeftView("setting"));
+                dispatch(setHeaderToggle(false));
+              }}
+            >
+              Settings
+            </li>
+            <li
+              onClick={() => {
+                dispatch(setLeftView("see request"));
+                dispatch(setHeaderToggle(false));
+              }}
+            >
+              See Friend Request
+            </li>
+            <li
+              onClick={() => {
+                dispatch(setLeftView("find friends"));
+                dispatch(setHeaderToggle(false));
+              }}
+            >
+              Find Friends
+            </li>
+            <li onClick={logoutRequest}>Log out</li>
+          </ul>
+        </div>
+        <div className="left-header-search">
+          <div className="left-header-search-item">
+            <IoMdSearch className="fa" style={{position: 'absolute', left: 40}} />
+            <input
+              onChange={(e) => setSearchName(e.target.value)}
+              type="text"
+              value={searchName}
+              style={{color: themeBg.color, paddingLeft: 40, border: themeBg.bg==='black' ? 'white 1px solid' : 'gray 1px solid', borderRadius: 10}}
+            />
+            {/* <span className="right-header-online"></span> */}
+            {/* <BsFilter className="fa" /> */}
+          </div>
+        </div>
+        <div className="left-header-container">
+          {/* <div className="left-header-chat">
                     <span className="chat-time unseen">7:59 PM</span>
                     <div className="animate-chat">
                         <i className="fa fa-thumb-tack pin" aria-hidden="true"></i>
@@ -80,18 +141,27 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
                         </div>
                     </div>
                 </div> */}
-                {
-                    chatList?.length < 1 ? <p style={{color: 'white', margin: '10px 0 10px 20px'}}>Choose a user to chat below</p> : chatList?.filter(user => user?.chatName?.toLowerCase().includes(searchName.toLowerCase())).map(chat => (
-                        <ChatList
-                            setNotifications={setNotifications}
-                            notifications={notifications}
-                            socket={socket}
-                            chat={chat} key={chat?._id}
-                        />
-                    ))
-                }
+          {chatList?.length < 1 ? (
+            <p style={{ color: themeBg.color, margin: "10px 0 10px 20px" }}>
+              Choose a user to chat below
+            </p>
+          ) : (
+            chatList
+              ?.filter((user) =>
+                user?.chatName?.toLowerCase().includes(searchName.toLowerCase())
+              )
+              .map((chat) => (
+                <ChatList
+                  setNotifications={setNotifications}
+                  notifications={notifications}
+                  socket={socket}
+                  chat={chat}
+                  key={chat?._id}
+                />
+              ))
+          )}
 
-                {/* <div className="left-header-chat">
+          {/* <div className="left-header-chat">
                     <span className="chat-time unseen">10:23 AM</span>
                     <div className="animate-chat">
                         <span className="notif-message">2</span>
@@ -208,11 +278,9 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
                         </div>
                     </div>
                 </div> */}
-                <AllUsersView socket={socket} searchName={searchName} />
-                <FriendRequest socket={socket} searchName={searchName} />
-            </div>
         </div>
-    )
+      </div>
+    );
 }
 
 export default Sidebar

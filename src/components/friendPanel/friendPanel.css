@@ -1,0 +1,76 @@
+.friendPanel {
+    padding: 5px;
+    flex: 25%;
+    /* background-color: rgb(17, 27, 33); */
+    overflow-y: auto;
+    position: relative;
+}
+
+.friendPanel-body{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.friendPanel .friendPanel-body .friendPanel-user{
+    /* background: rgb(243, 238, 238); */
+    width: 90%;
+    /* color: white; */
+    height: 80px;
+    padding: 5px;
+    margin: 6px 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    transition: .4s all ease-in;
+    border: none;
+}
+
+.friendPanel .friendPanel-body .friendPanel-user:hover{
+    box-shadow: 1px 1px 3px 1px rgb(46, 235, 46);
+}
+.friendPanel .friendPanel-body .friendPanel-user img{
+    height: 60px;
+    width: 60px;
+}
+.friendPanel .friendPanel-body .friendPanel-user .friendPanel-user-about{
+    /* background: blue; */
+    height: 100%;
+    width: 100%;
+    margin-left: 14px;
+    display: flex;
+    flex-direction: column;
+    color: rgb(46, 235, 46);
+}
+.friendPanel .friendPanel-body .friendPanel-user .friendPanel-user-about button{
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    width: fit-content;
+    padding: 1px 15px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: .4s all ease-in-out;
+    font-weight: 600;
+    background-color: transparent;
+    color: rgb(46, 235, 46);
+    border: 1px solid rgb(46, 235, 46);
+}
+.friendPanel .friendPanel-body .friendPanel-user .friendPanel-user-about button:hover{
+    background: rgb(46, 235, 46);
+    color: white;
+}
+.friendPanel .friendPanel-body .friendPanel-user .friendPanel-user-about:hover div .act{
+    animation: requestAction infinite 1s;
+}
+
+@keyframes requestAction {
+    0%{
+        transform: scale(0.8);
+    }50%{
+        transform: scale(1.2);
+    }100%{
+        transform: scale(0.9);
+    }
+}

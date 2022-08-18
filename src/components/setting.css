@@ -1,7 +1,7 @@
 .setting {
   padding: 5px;
-  flex: 28%;
-  background-color: rgb(17, 27, 33);
+  flex: 25%;
+  /* background-color: rgb(17, 27, 33); */
   overflow-y: auto;
   position: relative;
 }
@@ -14,10 +14,10 @@
   padding-left: 30px;
   font-size: 18px;
   /* border-bottom: 1px solid rgb(80, 79, 79); */
-  color: white;
+  /* color: white; */
   position: absolute;
   top: 0;
-  background-color: inherit;
+  /* background-color: inherit; */
   z-index: 5;
   width: 100%;
 }
@@ -55,15 +55,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  color: white;
+  /* color: white; */
 }
 .setting .about-text .username {
   font-size: 16px;
   text-transform: uppercase;
 }
 .setting .about-text .text {
-  opacity: 0.4;
-  font-weight: 100;
+  /* opacity: 0.4; */
+  font-weight: 600;
   font-size: 14px;
 }
 
@@ -73,11 +73,11 @@
   display: flex;
   align-items: center;
   transition: all ease-in-out 0.4;
-  color: white;
+  /* color: white; */
   font-size: 17px;
 }
 .setting .item-list:hover {
-  background: rgb(32, 44, 51);
+  background: rgb(100, 118, 129);
 }
 
 .setting .item-list .icon {

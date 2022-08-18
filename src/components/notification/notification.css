@@ -2,28 +2,42 @@
     overflow-y: auto;
     overflow-x: hidden;
     /* padding: 0 0 0 30px; */
-    background: rgb(32, 44, 51);
+    /* background: rgb(32, 44, 51); */
     padding: 5px;
-    flex: 28%;
+    flex: 25%;
     position: relative;
 }
 
-.notification .notif-item{
-    width: 100%;
-    /* background-color: blue; */
-    margin: 5px 0;
-    height: 50px;
+.notification .notification-body{
+    height: 100%;
+}
+
+.notification .notification-body .notification-item{
+    min-height: 70px;
+    height: fit-content;
+    margin: 10px;
+    /* color: white; */
     display: flex;
     align-items: center;
-    color: white;
-    font-size: 17px;
+    justify-content: center;
+    padding: 10px;
+    transition: .3s ease-in-out all;
     cursor: pointer;
-    margin-left: 30px;
+    position: relative;
 }
-.notification .notif-item span{
-    margin-left: 15px;
+.notification .notification-body .notification-item button{
+    position: absolute;
+    bottom: 10px;
+    right: 20px;
+    outline: none;
+    border: none;
+    padding: 3px 10px;
+    font-size: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: red;
+    font-weight: 600;
 }
-.notification .notif-item input{
-    height: 20px;
-    width: 20px;
+.notification .notification-body .notification-item:hover{
+    box-shadow: 1px 1px 3px 1px rgb(46, 235, 46);
 }

@@ -20,6 +20,7 @@ export const ProfileSidebar = () => {
 
     const dispatch = useDispatch()
     const { user } = useSelector(state => state.user)
+    const { themeBg } = useSelector(state => state.app)
     const [about, setAbout] = useState('')
     const [editAbout, setEditAbout] = useState(false)
     const [newImg, setNewImg] = useState(null)
@@ -38,7 +39,6 @@ export const ProfileSidebar = () => {
             setNewImg(file)
         }
     }
-    console.log(user?.about, 'about user')
 
     useEffect(()=>{
         setAbout(user?.about)
@@ -79,8 +79,8 @@ export const ProfileSidebar = () => {
             <div className="profile-sidebar-img" style={{ position: 'relative' }}>
                 {newImg &&
                     <>
-                        <BiUpload onClick={handleSubmitImg} title='Upload Image' style={{ position: 'absolute', fontSize: 25, cursor: 'pointer', right: '3%', bottom: '29%', color: 'white' }} />
-                        <MdCancel title='Remove Image' style={{ color: 'white', cursor: 'pointer', fontSize: 25, position: 'absolute', right: '10%', bottom: '29%' }} onClick={() => {
+                        <BiUpload onClick={handleSubmitImg} title='Upload Image' style={{ position: 'absolute', fontSize: 25, cursor: 'pointer', right: '3%', bottom: '29%', color: themeBg.color }} />
+                        <MdCancel title='Remove Image' style={{ color: themeBg.color, cursor: 'pointer', fontSize: 25, position: 'absolute', right: '10%', bottom: '29%' }} onClick={() => {
                             setNewImg(null)
                             setImgPrev(null)
                         }} />
@@ -102,29 +102,29 @@ export const ProfileSidebar = () => {
             </div>
             <p>About and Phone Number</p>
             <div style={{ alignItems: 'center', justifyContent: 'center' }} className="profile-details">
-                <GrCircleInformation style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, left: 18, color: 'white', opacity: 0.5 }} />
+                <GrCircleInformation style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, left: 18, color: themeBg.color, opacity: 0.5 }} />
                 {/* <BiPencil style={{cursor: 'pointer',fontSize: 22, position: 'absolute', top: 10, right: 18, color: 'white', opacity: 0.5}} /> */}
                 {/* <span style={{margin: '0 26px', padding: '0 10px', color: 'white'}}>Your about will come here: Tell us about yourself, what you do and what you intend doing in the future</span> */}
-                {!editAbout ? <div style={{color: 'white', height: '100%', width: '85%', padding: 10}}>{user?.about}</div>:
-                <textarea style={{ resize: 'none', border: editAbout ? '1px solid gray' : 'none', background: 'transparent', color: 'white', width: '85%', height: 'fit-content', padding: 10, fontSize: 18, outline: 'none', borderRadius: 10, minHeight: 100 }} type="text" value={about}
+                {!editAbout ? <div style={{color: themeBg.color, height: '100%', width: '85%', padding: 10}}>{user?.about}</div>:
+                <textarea style={{ resize: 'none', border: editAbout ? '1px solid gray' : 'none', background: 'transparent', color: themeBg.color, width: '85%', height: 'fit-content', padding: 10, fontSize: 18, outline: 'none', borderRadius: 10, minHeight: 100 }} type="text" value={about}
                     onChange={(e) => setAbout(e.target.value)}
                     disabled={!editAbout}
                 />}
                 {!editAbout ? <BiPencil title='Edit About' onClick={() => setEditAbout(true)}
-                    style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, right: 18, color: 'white', opacity: 0.5 }}
+                    style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, right: 18, color: themeBg.color, opacity: 0.5 }}
                 />
                     : <BiSave
                         title='Save About'
-                        style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, right: 18, color: 'white', opacity: 0.5 }}
+                        style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, right: 18, color: themeBg.color, opacity: 0.5 }}
                         onClick={updateAbout} />}
             </div>
             <div className="profile-details">
-                <BsTelephone style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, left: 18, color: 'white', opacity: 0.5 }} />
-                <span style={{ margin: '0 26px', padding: '0 10px', color: 'white' }}>{user.username} {" | "} {user.email}</span>
-                <BiPencil title='This feature is disabled at the moment, try again later' style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, right: 18, color: 'white', opacity: 0.5 }} />
+                <BsTelephone style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, left: 18, color: themeBg.color, opacity: 0.5 }} />
+                <span style={{ margin: '0 26px', padding: '0 10px', color: themeBg.color }}>{user.username} {" | "} {user.email}</span>
+                {/* <BiPencil title='This feature is disabled at the moment, try again later' style={{ cursor: 'pointer', fontSize: 22, position: 'absolute', top: 10, right: 18, color: 'white', opacity: 0.5 }} /> */}
             </div>
             <div className="profile-details">
-                <span style={{ color: 'white' }}>Your phone number can be edited from your app on your mobile Phone.</span>
+                <span style={{ color: themeBg.color, fontSize: 12 }}>Your phone number can be edited from your app on your mobile Phone.</span>
             </div>
         </div>
     )

@@ -2,11 +2,16 @@ import {createSlice} from '@reduxjs/toolkit'
 
 
 const initialState = {
-    rightView: null,
-    leftView: 'chat',
-    showTheme: false,
-    colorPallete: '',
-}
+  rightView: null,
+  leftView: "chat",
+  showTheme: false,
+  colorPallete: "",
+  themeBg: {
+    bg: 'black',
+    color: 'white'
+  },
+//   themeBg: "#202c33",
+};
 
 const appSlice = createSlice({
     name: 'app',
@@ -26,10 +31,13 @@ const appSlice = createSlice({
         },
         setStatusMode: (state)=>{
             state.statusMode = !state.statusMode
+        },
+        setThemeBg: (state, action)=>{
+            state.themeBg = action.payload
         }
     }
 })
 
-export const {setRightView, setLeftView, setShowTheme, setColorPallete, setCallMode, setStatusMode} = appSlice.actions
+export const {setRightView, setLeftView, setThemeBg,setShowTheme, setColorPallete, setCallMode, setStatusMode} = appSlice.actions
 
 export default appSlice.reducer

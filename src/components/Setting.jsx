@@ -1,7 +1,6 @@
 import React from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import { BsInfoSquare, BsNewspaper } from 'react-icons/bs'
-import { IoMdNotificationsOutline } from 'react-icons/io'
 import { MdLockOutline, MdOutlineHelpOutline, MdSecurity } from 'react-icons/md'
 import { WiDayLightWind } from 'react-icons/wi'
 import { useDispatch, useSelector } from 'react-redux'
@@ -30,10 +29,10 @@ const Setting = () => {
                     <span className='text'>{about.slice(0, 35) + '...'}</span>
                 </div>
             </div>
-                <div className="item-list" onClick={() => dispatch(setLeftView('notification'))}>
+                {/* <div className="item-list" onClick={() => dispatch(setLeftView('notification'))}>
                     <IoMdNotificationsOutline className='icon' />
                     <span className='item-text'>Notification</span>
-                </div>
+                </div> */}
                 <div className="item-list" onClick={() => dispatch(setLeftView('privacy'))}>
                     <MdLockOutline className='icon' />
                     <span className='item-text'>Privacy</span>

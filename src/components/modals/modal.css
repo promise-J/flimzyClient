@@ -84,7 +84,7 @@
 }
 
 .profile-pop-up{
-    background: rgb(32,44,51);
+    /* background: rgb(32,44,51); */
     height: 500px;
     width: 500px;
     position: absolute;

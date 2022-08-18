@@ -6,7 +6,7 @@
 
 .setting .security-detail{
     margin: 0 20px;
-    color: white;
+    /* color: white; */
 }
 .setting .security-details input{
     margin-left: 10px;

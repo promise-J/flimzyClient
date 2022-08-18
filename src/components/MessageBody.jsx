@@ -2,35 +2,38 @@ import React, { useEffect, useRef } from 'react'
 import MessageText from './MessageText'
 
 const MessageBody = ({
-    msgLoad,
+    // uploadImage,
     messages,
-    colorPallete,
     replyMode,
     labelAll,
     setLabelAll,
     selectedLabel,
     setSelectedLabel,
     setReplyMode,
-    setMessages
+    setMessages,
+    searchMessage
 }) => {
+    
 
     const messagesEndRef = useRef(null)
 
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth", bottom: 0 })
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
 
     useEffect(() => {
         scrollToBottom()
     }, [messages]);
 
+    // <div className="right-container" style={{ backgroundImage: colorPallete && `linear-gradient(to bottom, ${colorPallete},gray, url('images/background.jpg')` }} ref={messagesEndRef} >
     return (
-        <div className="right-container" style={{ backgroundImage: colorPallete && `linear-gradient(to bottom, ${colorPallete},gray, url('images/background.jpg')` }} ref={messagesEndRef} >
-            <p><i className="fa fa-lock" aria-hidden="true"></i>Messages are end-to-end encrypted. No one outside of this chat, not even whatsApp, can read or listen to them. Click to learn more.</p>
+        <div className="right-container" ref={messagesEndRef} >
+        {/* <div className="right-container" style={{ background:  colorPallete }} ref={messagesEndRef} > */}
+            <p><i className="fa fa-lock" aria-hidden="true"></i>Welcome! This is the begining of your chat. You can report any activity to flimzy app. We trust you have a nice time.</p>
 
-            {msgLoad ? <p>Loading...</p> : messages.map(msg => (
+            {/* {msgLoad ? <p>Loading...</p> :  */}
+            {messages.filter(msg=> msg.content.toLowerCase().includes(searchMessage)).map(msg => (
                 <MessageText
-                    // ref={messagesEndRef}
                     key={msg._id}
                     msg={msg}
                     labelAll={labelAll}
@@ -43,6 +46,7 @@ const MessageBody = ({
                 />
             ))
             }
+            <div ref={messagesEndRef} />
         </div>
     )
 }

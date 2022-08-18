@@ -4,7 +4,7 @@
 
 .chatWallpaper .color-panels{
     width: 80%;
-    height: 750px;
+    height: 280px;
     margin: 20px auto;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -21,6 +21,6 @@
     color: white;
     cursor: pointer;
 }
-.chatWallpaper .color-panels .color-panel:nth-child(1){
+/* .chatWallpaper .color-panels .color-panel:nth-child(1){
     background: black;
-}
+} */

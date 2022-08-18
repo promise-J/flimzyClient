@@ -5,7 +5,7 @@
 }
 
 .starting h1{
-    font-size: 60px;
+    font-size: 50px;
     text-align: center;
 }
 .starting main .stages{
@@ -94,7 +94,7 @@
         transform: translateX(-75px);
     }
     100%{
-        transform:  translateX(-160px);
+        transform:  translateX(-153px);
         width: 70px;
         height: 70px;
         z-index: 5;

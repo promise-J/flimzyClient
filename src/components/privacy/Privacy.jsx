@@ -1,28 +1,29 @@
 import React from 'react'
 import { BiArrowBack } from 'react-icons/bi'
 import { IoIosArrowForward } from 'react-icons/io'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setLeftView } from '../../redux/appSlice'
 import './privacy.css'
 
 const Privacy = () => {
+    const {themeBg} = useSelector(state=>state.app)
     const dispatch = useDispatch()
 
     return (
         <div className='left privacy'>
-            <div className="setting-header" style={{ paddingLeft: 20, background: 'rgb(32,44,51)' }}>
+            <div className="setting-header" style={{ paddingLeft: 20, background: themeBg.bg, color: themeBg.color }}>
                 <BiArrowBack className='icon' onClick={() => dispatch(setLeftView('setting'))} style={{ cursor: 'pointer' }} />
                 <h4>Privacy</h4>
             </div>
             <div className="setting-header-offset"></div>
-            <p style={{ color: 'rgb(0,115,68)', marginBottom: 15, marginLeft: 30 }}>Who can see my personal info</p>
-            <div className="privacy-item">
+            <p style={{ color: themeBg.color, marginBottom: 15, marginLeft: 30 }}>Who can see my personal info</p>
+            {/* <div className="privacy-item">
                 <div className="privacy-item-text">
                     <span>Last Seen</span>
                     <span>Nobody</span>
                 </div>
                 <IoIosArrowForward />
-            </div>
+            </div> */}
             <div className="privacy-item">
                 <div className="privacy-item-text">
                     <span>Profile Photo</span>
@@ -52,7 +53,7 @@ const Privacy = () => {
                 <input style={{ height: 20, width: 20 }} type='checkbox' />
             </div>
             <div className="privacy-disappear">
-                <p style={{ color: 'rgb(0,115,68)', marginLeft: 30}}>Disappearing messages</p>
+                <p style={{ color: themeBg.color, marginLeft: 30}}>Disappearing messages</p>
                 <div className="privacy-item">
                     <div className="privacy-item-text">
                         <span>Default message timer</span>

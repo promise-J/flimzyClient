@@ -1,6 +1,7 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a chat application that allows user share images, text and proper communication. This app only supports desktop view at the moments as plans are underway to making it a mobile app too.
 
 ## Available Scripts
 
