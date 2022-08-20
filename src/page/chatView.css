@@ -412,7 +412,7 @@
 }
 
 .right .right-container .message-box {
-  color: white;
+  /* color: white; */
   margin: 15px;
   max-width: 65%;
   width: fit-content;

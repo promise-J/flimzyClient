@@ -9,14 +9,14 @@ import RightSidebar from "../components/RightSidebar";
 import MessageSection from "../components/MessageSection";
 import MessageInfoSidebar from "../components/MessageInfoSidebar";
 import { addUserRequest, setChatId, setUsers } from "../redux/userSlice";
+import Peer from "simple-peer";
 import {
-    addChatList,
-  endChatLoad,
+  addChatList,
+  setChatLoad,
   setChatObject,
   setChats,
   setHeaderToggle,
   setShowImg,
-  startChatLoad,
 } from "../redux/chatSlice";
 import LoadAnimate from "../components/LoadAnimate";
 // import io from "socket.io-client";
@@ -31,37 +31,43 @@ import RequestAccount from "../components/requestAccount/RequestAccount";
 import Help from "../components/help/Help";
 import FriendPanel from "../components/friendPanel/FriendPanel";
 import FriendRequest from "../components/friendRequestPanel/FriendRequest.jsx";
+import CallPage from "./CallPage";
+import { setCaller, setPeer, setReceivingCall } from "../redux/callSlice";
 // import StatusPage from './StatusPage'
 
 // const END_POINT = process.env.REACT_APP_BACKEND_URL;
 // const END_POINT = 'http://localhost:5000'
 
-const ChatView = ({socket}) => {
+const ChatView = ({ socket }) => {
   const dispatch = useDispatch();
   const [openProfile, setOpenProfile] = useState(false);
   const [leftToggleHeader, setLeftToggleHeader] = useState(false);
-//   const [socket, setSocket] = useState(io(END_POINT));
+  //   const [socket, setSocket] = useState(io(END_POINT));
   const [notifications, setNotifications] = useState([]);
 
   const { chatId, user } = useSelector((state) => state.user);
   const { rightView, showTheme, leftView, themeBg } = useSelector(
     (state) => state.app
   );
-  const { showGroupModal, showImg, chatLoading, headerToggle, chatList } = useSelector(
-    (state) => state.chat
-  );
+  const { showGroupModal, showImg, chatLoading, headerToggle, chatList } = useSelector((state) => state.chat);
+  const { callMode, receivingCall } = useSelector((state) => state.call);
 
-  // const [socket, setSocket] = useState(null)
+  useEffect(() => {
+    let done = true
+    if(done){
 
-//   useEffect(() => {
-//     const initSocket = () => {
-//     //   let sock = io(END_POINT);
-//       socket && socket.emit("setup", user);
-//     //   setSocket(sock);
-//     //   socket === null && setSocket(sock);
-//     };
-//     user && initSocket();
-//   }, [user, socket]);
+      const peer = new Peer({
+        // initiator: true,
+        trickle: false,
+        channelName: user?._id
+      });
+      dispatch(setPeer(peer));
+    }
+
+    return ()=>{
+      done = false
+    }
+  }, [user, dispatch]);
 
   useEffect(() => {
     socket.on("receive message", (newMessage) => {
@@ -74,17 +80,15 @@ const ChatView = ({socket}) => {
 
   useEffect(() => {
     const userChats = async () => {
-      dispatch(startChatLoad());
+      dispatch(setChatLoad(true));
       const res = await makeRequest.get("/chat");
       dispatch(setChats(res.data));
-      dispatch(endChatLoad());
+      dispatch(setChatLoad(false));
     };
     userChats();
   }, [dispatch]);
 
-  useEffect(()=>{
-
-  },[])
+  useEffect(() => {}, []);
 
   useEffect(() => {
     const getSingleChat = async () => {
@@ -114,29 +118,39 @@ const ChatView = ({socket}) => {
     getListUsers();
   }, [dispatch]);
 
-  useEffect(()=>{
-    socket.on("notify friend request", (data)=>{
-        socket && dispatch(addUserRequest(data.data.requester))
+  useEffect(() => {
+    socket.on("notify friend request", (data) => {
+      socket && dispatch(addUserRequest(data.data.requester));
     });
-  },[dispatch, socket])
+  }, [dispatch, socket]);
 
-  useEffect(()=>{
-    socket && socket.on('receive delete request', (data)=>{
-        dispatch(setChats(chatList.filter(cl=> cl._id !== data.chatId)))
-        if(chatId===data.chatId){
-            dispatch(setChatId(null))
+  useEffect(() => {
+    socket &&
+      socket.on("receive delete request", (data) => {
+        dispatch(setChats(chatList.filter((cl) => cl._id !== data.chatId)));
+        if (chatId === data.chatId) {
+          dispatch(setChatId(null));
         }
-    })
-  },[socket, chatList, dispatch, chatId])
+      });
+  }, [socket, chatList, dispatch, chatId]);
 
-  useEffect(()=>{
+  useEffect(() => {
     socket &&
       socket.on("chat creation feedback", (data) => {
         dispatch(addChatList(data.chat));
         console.log(data, "from new chat feed back");
       });
-  },[socket, dispatch])
-  
+  }, [socket, dispatch]);
+
+  useEffect(()=>{
+    socket.on("hey", (data) => {
+      // console.log(data, "the hey");
+      dispatch(setReceivingCall(true));
+      dispatch(setCaller(data));
+      // dispatch(setCallSignal(data.signal));
+    });
+  },[dispatch, socket])
+
   const closeAll = () => {
     if (leftToggleHeader) {
       setLeftToggleHeader(false);
@@ -149,8 +163,6 @@ const ChatView = ({socket}) => {
     }
   };
 
-
-
   if (chatLoading) {
     return <LoadAnimate />;
   }
@@ -158,7 +170,11 @@ const ChatView = ({socket}) => {
   // url('images/background.jpg')
   return (
     <>
-      <div className="container" style={{background: themeBg.bg, color: themeBg.color}} onClick={closeAll}>
+      <div
+        className="container"
+        style={{ background: themeBg.bg, color: themeBg.color }}
+        onClick={closeAll}
+      >
         {showGroupModal && <GroupModal />}
         {showTheme && <ThemeModal />}
         {leftView === "setting" ? (
@@ -177,12 +193,11 @@ const ChatView = ({socket}) => {
           <RequestAccount />
         ) : leftView === "help" ? (
           <Help />
-        ) : leftView === 'find friends' ? (
-            <FriendPanel socket={socket} />
-        ): leftView === 'see request' ? (
-            <FriendRequest />
-        ):
-        (
+        ) : leftView === "find friends" ? (
+          <FriendPanel socket={socket} />
+        ) : leftView === "see request" ? (
+          <FriendRequest />
+        ) : (
           <ChatSidebar
             setNotifications={setNotifications}
             notifications={notifications}
@@ -237,7 +252,7 @@ const ChatView = ({socket}) => {
           <RightSidebar socket={socket} />
         ) : null}
       </div>
-      {/* {statusMode && <StatusPage />} */}
+      {(callMode || receivingCall) && <CallPage socket={socket} />}
     </>
   );
 };

@@ -1,0 +1,125 @@
+.call-page {
+  background-color: black;
+  height: 100vh;
+  width: 100vw;
+  z-index: 40;
+  /* opacity: 0.9; */
+  top: 0;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.call-page h1 {
+  text-align: center;
+  color: white;
+  margin: 0 120px;
+}
+
+.call-page .call-page-header {
+  /* background-color: blue; */
+  /* height: 70px; */
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.call-page .call-page-header .fa.fae{
+    color: red;
+    margin-left: 30px;
+}
+.call-page .call-page-header .fa.fae:hover{
+    background: red;
+    color: white;
+}
+.call-page .call-page-header .fa {
+  color: white;
+  font-size: 40px;
+  cursor: pointer;
+  /* background-color: red; */
+  padding: 7px;
+  border-radius: 50%;
+  transition: all ease-in-out 0.2s;
+}
+.call-page .call-page-header .fa:hover {
+  background-color: green;
+}
+.call-page .call-page-body {
+    /* background-color: red; */
+    flex: 10;
+    padding: 20px;
+}
+.call-page .call-page-body .user-video{
+    height: 40%;
+    width: 350px;
+    position: absolute;
+    border: 8px solid rgb(26, 25, 25);
+    border: 8px solid rgb(51, 35, 51);
+    border-radius: 10px;
+    top: 80px;
+}
+.call-page .call-page-body .user-video video{
+    height: 100%;
+    width: 100%;
+}
+.call-page .call-page-body .caller-video{
+    height: 73%;
+    width: 600px;
+    /* background-color: purple; */
+    margin-left: auto;
+    position: absolute;
+    bottom: 30px;
+    border: 1px solid rgb(26, 25, 25);
+    right: 30px;
+}
+.call-page .call-page-body .caller-video video{
+    height: 100%;
+    width: 100%;
+}
+
+.call-page .acceptPanel{
+    /* background-color: blue; */
+    height: 100px;
+    width: 240px;
+    position: absolute;
+    bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    left: 20px;
+    color: white;
+}
+
+.call-page .acceptPanel .acceptPanelButton{
+    flex: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.call-page .acceptPanel .accept-fa.fae{
+    color: red;
+}
+.call-page .acceptPanel .accept-fa{
+    font-size: 35px;
+    color: green;
+    transform: rotate(-45deg);
+    cursor: pointer;
+    animation: acceptCall 2s infinite;
+    border-radius: 50%;
+    padding: 7px;
+}
+
+@keyframes acceptCall {
+    0%{
+        transform: rotate(0deg) scale(1.2);
+        background-color: white;
+    }50%{
+        transform: rotate(-40deg) scale(1);
+    }100%{
+        transform: rotate(0deg) scale(1.2);
+        background-color: white;
+    }
+}

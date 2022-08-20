@@ -23,6 +23,11 @@ import EmojiPicker from "./EmojiPicker";
 import MessageBody from "./MessageBody";
 import { FcCancel } from "react-icons/fc";
 import { setChatId } from "../redux/userSlice";
+import axios from "axios";
+import { FaVideo } from "react-icons/fa";
+import { setCallMode, setPartnerId } from "../redux/callSlice";
+
+const PF = process.env.REACT_APP_BACKEND_URL;
 
 // import io from 'socket.io-client'
 
@@ -35,7 +40,7 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
   const { messageLoad, singleLoad, repliedMessage } = useSelector(
     (state) => state.message
   );
-  const { chatObject } = useSelector((state) => state.chat);
+  const { chatObject, chatSwitch } = useSelector((state) => state.chat);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [labelAll, setLabelAll] = useState(false);
@@ -44,24 +49,37 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
   const [uploadImage, setUploadImage] = useState({
     img: null,
     imgPrev: "",
-    sendImage: false,
   });
   const [emojiMode, setEmojiMode] = useState(false);
   const [replyMode, setReplyMode] = useState(false);
   const [searchMessage, setSearchMessage] = useState("");
   const [showSearch, setShowSearch] = useState(false);
 
-  // const [messageImg, setMessageImg] = useState(null)
-
   useEffect(() => {
-    socket.on("typing", () => message && setIsTyping(true));
-    socket.on("stop typing", () => setIsTyping(false));
-    socket.on("receive message", (newMessage) => {
-      if (chatId === newMessage.chat._id) {
-        setMessages([...messages, newMessage]);
-      }
-    });
-  });
+    let done = true;
+    if (done) {
+      socket.on("typing", (data) => {
+          console.log(data.chatId, chatId)
+           data.chatId===chatId ? setIsTyping(true) : setIsTyping(false);
+      });
+      socket.on("stop typing", () => setIsTyping(false));
+      socket.on("receive message", (newMessage) => {
+        console.log(newMessage.chat._id === chatId);
+        if (chatId === newMessage.chat._id) {
+          setMessages([...messages, newMessage]);
+        } else {
+          console.log("not the same chat");
+        }
+      });
+    }
+    return () => {
+      done = false;
+    };
+  },[chatId, messages, socket]);
+
+  useEffect(()=>{
+    setIsTyping(false)
+  },[chatId])
 
   useEffect(() => {
     const getChatMessages = async () => {
@@ -79,7 +97,7 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
   const handleImgChange = async (e) => {
     const file = e.target.files[0];
     if (file.size > 1024 * 1024) {
-      setUploadImage({ ...uploadImage, img: null, imgPrev: "" });
+      setUploadImage({ img: null, imgPrev: "" });
       toast.error("File is too large");
     } else if (
       file.type !== "image/jpeg" &&
@@ -87,35 +105,52 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
       file.type !== "image/png"
     ) {
       toast.error("Image format not allowed");
-      return setUploadImage({ ...uploadImage, imgPrev: "", img: null });
+      return setUploadImage({ imgPrev: "", img: null });
     } else {
       return setUploadImage({
-        sendImage: true,
         imgPrev: URL.createObjectURL(file),
         img: file,
       });
     }
   };
 
+  useEffect(()=>{
+  dispatch(setPartnerId(chatObject?.users?.filter((usr) => usr._id !== user._id)[0]._id));
+  },[user, dispatch, chatObject])
+
   const submitMessage = async (e) => {
     e.preventDefault();
     if (!message) return;
-    // const formData = new FormData()
-    // formData.append('image', messageImg)
+    const formData = new FormData();
+    formData.append("file", uploadImage?.img);
+    console.log(uploadImage, "form data");
     try {
-        const res = await makeRequest.post("/message", {
+      let res;
+      if (uploadImage.img) {
+        const resImg = await axios.post(PF + "/img", formData);
+        res = await makeRequest.post("/message", {
+          chat: chatObject._id,
+          content: message,
+          replyMessage: repliedMessage?._id && repliedMessage?._id,
+          img: resImg.data.secure_url,
+          imgPrev: uploadImage.imgPrev,
+        });
+        setUploadImage({ img: null, imgPrev: "" });
+      } else {
+        res = await makeRequest.post("/message", {
           chat: chatObject._id,
           content: message,
           replyMessage: repliedMessage?._id && repliedMessage?._id,
         });
-        setMessages([...messages, res.data]);
-        setMessage("");
-        emojiMode && setEmojiMode(false);
-        dispatch(setSingleLoad(!singleLoad));
-        setReplyMode(false);
-        dispatch(setRepliedMessage(null));
-        socket && socket.emit("new message", res.data);
-        socket && socket.emit("stop typing", chatId);
+      }
+      setMessages([...messages, res.data]);
+      setMessage("");
+      emojiMode && setEmojiMode(false);
+      dispatch(setSingleLoad(!singleLoad));
+      setReplyMode(false);
+      dispatch(setRepliedMessage(null));
+      socket && socket.emit("new message", res.data);
+      socket && socket.emit("stop typing", chatObject, currentUser);
     } catch (error) {
       console.log(error);
     }
@@ -173,12 +208,12 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
             alt=""
           />
           <div className="right-header-detail">
-            <span>{groupName()}</span>
+            <span>{chatSwitch ? 'loading' : groupName()}</span>
             <span>{isTyping ? "typing" : ""}</span>
           </div>
         </div>
         <div className="right-header-icons" style={{ position: "relative" }}>
-          {/* <FaVideo title='Start a video call' className='fa' /> */}
+          <FaVideo onClick={()=> dispatch(setCallMode(true))} title='Start a video call' className='fa' />
           <input
             style={{
               background: themeBg.bg,
@@ -259,7 +294,7 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
             onClick={() => setEmojiMode(!emojiMode)}
           />
           {emojiMode && <EmojiPicker className="fa" setMessage={setMessage} />}
-          <label htmlFor="filer">
+          <label htmlFor="file">
             <MdAttachFile
               className="fa"
               style={{ transform: "rotate(45deg)" }}
@@ -279,7 +314,7 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
             <input
               value={message}
               onChange={(e) => {
-                socket.emit("typing", chatId);
+                e.target.value.length > 0 ? socket.emit("typing", chatObject, currentUser) : socket.emit('stop typing', chatObject, currentUser);
                 setMessage(e.target.value);
               }}
               type="text"
@@ -376,7 +411,6 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
               }}
               type="text"
               style={{ color: themeBg.bg === "black" ? "white" : "black" }}
-              
               placeholder="Type a message"
             />
             <span className="online"></span>

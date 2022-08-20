@@ -38,6 +38,6 @@ const appSlice = createSlice({
     }
 })
 
-export const {setRightView, setLeftView, setThemeBg,setShowTheme, setColorPallete, setCallMode, setStatusMode} = appSlice.actions
+export const {setRightView, setLeftView, setThemeBg,setShowTheme, setColorPallete, setStatusMode} = appSlice.actions
 
 export default appSlice.reducer

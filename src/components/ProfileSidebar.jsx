@@ -58,7 +58,6 @@ export const ProfileSidebar = () => {
         const formData = new FormData()
         formData.append('file', newImg)
         const res = await axios.post(PF + '/img', formData)
-        console.log(res.data, 'the updated image')
         if (res.status === 200) {
             const newUser = await makeRequest.put('/user/updateUser', { picture: res.data.secure_url })
             dispatch(setUser(newUser.data))

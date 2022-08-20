@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import appSlice from './appSlice'
+import callSlice from './callSlice'
 import chatSlice from './chatSlice'
 import messageSlice from './messageSlice'
 import statusSlice from './statusSlice'
@@ -11,7 +12,8 @@ export const store = configureStore({
     app: appSlice,
     chat: chatSlice,
     message: messageSlice,
-    status: statusSlice
+    status: statusSlice,
+    call: callSlice
   },
   middleware: getDefaultMiddleware =>
   getDefaultMiddleware({

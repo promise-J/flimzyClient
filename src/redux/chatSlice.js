@@ -3,14 +3,15 @@ import {createSlice} from '@reduxjs/toolkit'
 
 const initialState = {
     chatList: [],
-    chatLoading: true,
+    chatLoading: false,
+    chatSwitch: false,
     headerToggle: false,
     showGroupModal: false,
     chatObject: null,
     socketId: null,
     notifications: [],
     popImg: null,
-    showImg: false
+    showImg: false,
 }
 
 const chatSlice = createSlice({
@@ -20,11 +21,11 @@ const chatSlice = createSlice({
         setChats: (state, action)=>{
             state.chatList = action.payload
         },
-        startChatLoad: (state)=>{
-            state.chatLoading = true
+        setChatLoad: (state, action)=>{
+            state.chatLoading = action.payload
         },
-        endChatLoad: (state)=>{
-            state.chatLoading = false
+        setChatSwitch: (state, action)=>{
+            state.chatSwitch = action.payload
         },
         addChatList: (state, action)=>{
             state.chatList.unshift(action.payload)
@@ -62,7 +63,6 @@ const chatSlice = createSlice({
 export const {setChats, startChatLoad,
         setSocketChat,
         removeChat,
-        endChatLoad,
         setChatObject,
         addChatList,
         setHeaderToggle,
@@ -72,7 +72,9 @@ export const {setChats, startChatLoad,
         setNotifications,
         updateChat,
         setPopImg,
-        setShowImg
+        setChatLoad,
+        setShowImg,
+        setChatSwitch
         } = chatSlice.actions
 
 export default chatSlice.reducer

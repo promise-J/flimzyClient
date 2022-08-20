@@ -14,7 +14,7 @@ const MessageText = ({
   setSelectedLabel,
   setMessages,
   setReplyMode,
-  replyMode,
+  searchMessage,
 }) => {
   const { user } = useSelector((state) => state.user);
   // const { themeBg } = useSelector(state => state.app)
@@ -59,6 +59,34 @@ const MessageText = ({
       console.log(error);
     }
   };
+
+  // const getHighlightedText = (text, highlight) => {
+  //   // Split on highlight term and include term into parts, ignore case
+  //   const parts = text.split(new RegExp(`(${highlight.content})`, "gi"));
+  //   console.log(text, 'the text')
+  //   return (
+  //     <span>
+  //       {" "}
+  //       {parts?.map((part, i) => {
+  //         console.log(highlight.content, 'the high')
+  //         console.log(part, 'the part')
+  //       return(
+  //         <span
+  //           key={i}
+  //           style={
+  //             part.toLowerCase() === highlight.content.toLowerCase()
+  //               ? { fontWeight: "bold", color: "red", fontSize: 30 }
+  //               : {}
+  //           }
+  //         >
+  //           {part}
+  //         </span>
+  //       )}
+  //       )}{" "}
+  //     </span>
+  //   );
+  // };
+
 
   return (
     <div
@@ -163,9 +191,14 @@ const MessageText = ({
         )}
       </div>
       {msg.img && (
-        <img style={{ width: "100%", borderRadius: 10 }} src={msg.img} alt="hope" />
+        <img
+          style={{ width: "100%", borderRadius: 10 }}
+          src={msg.img}
+          alt="hope"
+        />
       )}
       {msg.content}
+      {/* {searchMessage ? getHighlightedText(searchMessage, msg) : msg.content} */}
       <span style={{ marginBottom: 5, fontSize: 9 }}>
         {formatDate(msg.createdAt)}
       </span>
