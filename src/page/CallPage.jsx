@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { BiVideo } from "react-icons/bi";
 import { MdCall, MdCallEnd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import { setCallMode } from "../redux/callSlice";
+import { setCaller, setCallMode, setReceivingCall } from "../redux/callSlice";
 import "./callpage.css";
 import Peer from "simple-peer";
 
@@ -13,7 +13,7 @@ const CallPage = ({ socket }) => {
   const dispatch = useDispatch();
   const [stream, setStream] = useState(null);
   const [callAccepted, setCallAccepted] = useState(false);
-  const [calling, setCalling] = useState(false)
+  const [calling, setCalling] = useState(false);
   const userVideo = useRef();
   const partnerVideo = useRef();
   const { partnerId, receivingCall, caller } = useSelector(
@@ -23,24 +23,17 @@ const CallPage = ({ socket }) => {
 
   useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
+      .getUserMedia({ video: true, audio: true })
       .then((stream) => {
         setStream(stream);
         if (userVideo.current) {
           userVideo.current.srcObject = stream;
         }
       });
-
-    // socket.on('hey', (data)=> {
-    //     // setReceivingCall(true)
-    //     // setCaller(data.from)
-    //     console.log(data.signal, ' from the home hey')
-    //     setCallerSignal(data.signal)
-    // })
   }, []);
 
   const callPeer = (id) => {
-    setCalling(true)
+    setCalling(true);
     const peer = new Peer({
       initiator: true,
       trickle: false,
@@ -62,9 +55,15 @@ const CallPage = ({ socket }) => {
     });
 
     socket.on("callAccepted", (data) => {
-        setCallAccepted(true);
-        setCalling(false)
-        peer.signal(data.signal);
+      setCallAccepted(true);
+      setCalling(false);
+      peer.signal(data.signal);
+    });
+
+    socket.on("rejectedCall", () => {
+      console.log("call is again");
+      dispatch(setCallMode(false));
+      peer.destroy()
     });
   };
 
@@ -81,13 +80,26 @@ const CallPage = ({ socket }) => {
     });
 
     peer.on("stream", (stream) => {
-        if(partnerVideo.current){
-            partnerVideo.current.srcObject = stream;
-        }
+      if (partnerVideo.current) {
+        partnerVideo.current.srcObject = stream;
+      }
     });
-    
-    if(caller.signal){
-        peer.signal(caller.signal);
+
+    if (caller.signal) {
+      peer.signal(caller.signal);
+    }
+
+    socket.on("rejectedCall", () => {
+      console.log("call is rejected from the fair");
+      dispatch(setCallMode(false));
+    });
+  };
+
+  const rejectCall = () => {
+    if (caller) {
+      dispatch(setReceivingCall(false));
+      dispatch(setCaller(null));
+      socket.emit("rejectCall", caller.from._id);
     }
   };
 
@@ -107,9 +119,9 @@ const CallPage = ({ socket }) => {
           <video ref={userVideo} autoPlay playsInline />
         </div>
         <div className="caller-video">
-            <video ref={partnerVideo} autoPlay playsInline />
+          <video ref={partnerVideo} autoPlay playsInline />
         </div>
-        {(receivingCall && !callAccepted) && (
+        {receivingCall && !callAccepted && (
           <div className="acceptPanel">
             <span style={{ fontSize: 14 }}>
               Incoming Call from{" "}
@@ -119,7 +131,7 @@ const CallPage = ({ socket }) => {
             </span>
             <div className="acceptPanelButton">
               <MdCallEnd className="accept-fa" onClick={receiveCall} />
-              <MdCallEnd className="accept-fa fae" />
+              <MdCallEnd className="accept-fa fae" onClick={rejectCall} />
             </div>
           </div>
         )}
@@ -127,13 +139,11 @@ const CallPage = ({ socket }) => {
           <div className="acceptPanel">
             <span style={{ fontSize: 14 }}>
               Connecting{" "}
-              <span style={{ color: "limegreen", fontSize: 24 }}>
-                ...
-              </span>
+              <span style={{ color: "limegreen", fontSize: 24 }}>...</span>
             </span>
             <div className="acceptPanelButton">
               {/* <MdCallEnd className="accept-fa" onClick={receiveCall} /> */}
-              <MdCallEnd className="accept-fa fae" />
+              <MdCallEnd className="accept-fa fae" onClick={rejectCall} />
             </div>
           </div>
         )}
@@ -141,12 +151,11 @@ const CallPage = ({ socket }) => {
           <div className="acceptPanel">
             <span style={{ fontSize: 14 }}>
               Connected{" "}
-              <span style={{ color: "limegreen", fontSize: 24 }}>
-              </span>
+              <span style={{ color: "limegreen", fontSize: 24 }}></span>
             </span>
             <div className="acceptPanelButton">
               {/* <MdCallEnd className="accept-fa" onClick={receiveCall} /> */}
-              <MdCallEnd className="accept-fa fae" />
+              <MdCallEnd className="accept-fa fae" onClick={rejectCall} />
             </div>
           </div>
         )}

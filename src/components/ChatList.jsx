@@ -96,7 +96,6 @@ const ChatList = ({ chat, notifications, setNotifications }) => {
         )}
         <i className="fa fa-angle-down" id="arrow-drop" aria-hidden="true"></i>
       </div>
-
       <img
         ref={imgRef}
         onClick={displayImg}

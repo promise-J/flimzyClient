@@ -19,16 +19,21 @@ const ThemeModal = () => {
   }, [themeBg]);
 
   return (
-    <div className="themeModal">
+    <div
+      className="themeModal"
+      style={{ background: themeBg.bg, color: themeBg.color }}
+    >
       <div className="theme1">
         <p>Choose a theme</p>
       </div>
       <div className="theme2">
         <div>
           <input
-            onChange={() => setValue({ bg: "white", color: "black" })}
+            onChange={() =>
+              setValue({ bg: "rgb(247, 244, 244)", color: "black" })
+            }
             value={value}
-            checked={value.bg === "white"}
+            checked={value.bg === "rgb(247, 244, 244)"}
             name="theme"
             type="radio"
           />

@@ -32,7 +32,8 @@ import Help from "../components/help/Help";
 import FriendPanel from "../components/friendPanel/FriendPanel";
 import FriendRequest from "../components/friendRequestPanel/FriendRequest.jsx";
 import CallPage from "./CallPage";
-import { setCaller, setPeer, setReceivingCall } from "../redux/callSlice";
+import { setCaller, setCallMode, setPeer } from "../redux/callSlice";
+import CallAlert from "../components/modals/CallAlert";
 // import StatusPage from './StatusPage'
 
 // const END_POINT = process.env.REACT_APP_BACKEND_URL;
@@ -50,7 +51,7 @@ const ChatView = ({ socket }) => {
     (state) => state.app
   );
   const { showGroupModal, showImg, chatLoading, headerToggle, chatList } = useSelector((state) => state.chat);
-  const { callMode, receivingCall } = useSelector((state) => state.call);
+  const { callMode, receivingCall, caller } = useSelector((state) => state.call);
 
   useEffect(() => {
     let done = true
@@ -145,10 +146,15 @@ const ChatView = ({ socket }) => {
   useEffect(()=>{
     socket.on("hey", (data) => {
       // console.log(data, "the hey");
-      dispatch(setReceivingCall(true));
+      // dispatch(setReceivingCall(true));
       dispatch(setCaller(data));
       // dispatch(setCallSignal(data.signal));
     });
+
+    socket.on('rejectedCall', ()=>{
+      console.log('call is rejected')
+      dispatch(setCallMode(false))
+    })
   },[dispatch, socket])
 
   const closeAll = () => {
@@ -177,6 +183,7 @@ const ChatView = ({ socket }) => {
       >
         {showGroupModal && <GroupModal />}
         {showTheme && <ThemeModal />}
+        {caller && <CallAlert socket={socket} />}
         {leftView === "setting" ? (
           <Setting />
         ) : leftView === "profile" ? (

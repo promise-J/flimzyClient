@@ -1,11 +1,12 @@
 .addedUser{
-    /* background-color: blue; */
+    /* background-color: rgb(247, 244, 244); */
     height: 60px;
     min-width: 100%;
     margin: 10px 0;
     display: flex;
     overflow-x: auto;
     align-items: center;
+
 }
 
 .addedUser p{
@@ -14,14 +15,14 @@
     height: fit-content;
     margin: 4px 10px;
     border-radius: 8px;
-    color: white;
+    /* color: white; */
     display: flex;
     border: rgb(68, 67, 67) 1px solid;
 }
 
 .addedUser p span{
     cursor: pointer;
-    color: white;
+    /* color: white; */
     opacity: 0.6;
     margin-left: 10px;
     margin-top: 2px;
@@ -34,7 +35,7 @@
 
 .chatList li{
     border-radius: 15px;
-    color: white;
+    /* color: white; */
     /* background: red; */
     border: 1px gray solid;
     cursor: pointer;
@@ -101,7 +102,7 @@
 .themeModal{
     height: 300px;
     width: 500px;
-    background-color: rgb(59,74,84);
+    /* background-color: rgb(59,74,84); */
     position: absolute;
     top: 20%;
     left: 30%;
@@ -115,7 +116,7 @@
     flex: 1;
     display: flex;
     align-items: center;
-    color: white;
+    /* color: white; */
     opacity: .5;
 }
 .themeModal .theme1 p{
@@ -128,7 +129,7 @@
     flex-direction: column;
     justify-content: center;
     padding: 15px;
-    color: white;
+    /* color: white; */
 }
 .themeModal .theme2 div{
     padding: 4px;
@@ -173,3 +174,51 @@
     border: none;
     background: rgb(0,168,132);
 }
+
+.callAlert{
+    height: 40px;
+    width: 40%;
+    z-index: 40;
+    background: teal;
+    position: absolute;
+    top: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    right: 20px;
+}
+
+.callAlert span{
+    flex: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.callAlert .callAlertAction{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.callAlert .callAlertAction button{
+    outline: none;
+    border: white 1px solid;
+    padding: 3px 14px;
+    border-radius: 14px;
+    cursor: pointer;
+}
+
+.callAlert .callAlertAction button:nth-child(1){
+    background-color: green;
+    color: white;
+}
+.callAlert .callAlertAction button:nth-child(2){
+    background-color: red;
+
+    color: white;
+}
+

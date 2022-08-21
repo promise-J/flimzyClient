@@ -7,10 +7,10 @@ const initialState = {
   showTheme: false,
   colorPallete: "",
   themeBg: {
-    bg: 'black',
-    color: 'white'
+    bg: "black",
+    color: "white",
   },
-//   themeBg: "#202c33",
+  //   themeBg: "#202c33",
 };
 
 const appSlice = createSlice({
