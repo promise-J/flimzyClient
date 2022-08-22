@@ -58,7 +58,6 @@ const ChatView = ({ socket }) => {
     (state) => state.call
   );
 
-  console.log(answered, 'the answered state')
 
   useEffect(() => {
     let done = true;
@@ -81,6 +80,8 @@ const ChatView = ({ socket }) => {
       if (chatId !== newMessage.chat._id) {
         //send a notification to the user
         setNotifications([...notifications, newMessage]);
+      }else{
+        console.log('nooooooooooooooo')
       }
     });
   });
@@ -158,9 +159,6 @@ const ChatView = ({ socket }) => {
     });
 
     socket.on("rejectedCall", () => {
-      console.log(
-        "call is rejected ooooooooooooooooooooooooooooooooooooooooooooo"
-      );
       dispatch(setCallMode(false));
     });
   }, [dispatch, socket]);

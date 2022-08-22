@@ -49,7 +49,6 @@ const CreateStatus = () => {
 
     const handleStatusCreation = async ()=>{
         if(statusText.length < 1) return
-        console.log({statusText, color: colors[selectedColor]})
         const res = await makeRequest.post('/status', {statusText, color: colors[selectedColor]})
         setStatusText('')
         dispatch(createStatus(false))

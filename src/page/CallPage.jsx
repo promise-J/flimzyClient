@@ -48,7 +48,6 @@ const CallPage = ({ socket }) => {
     setCallee(chatObject?.users.filter((usr) => usr._id !== user._Id)[0]);
 
     socket.on("switchVideo", (data) => {
-      console.log(data, "the switch");
       setPartnerImage(data.image);
       setPartnerSwitchVideo(!partnerSwitchVideo);
     });
@@ -170,10 +169,10 @@ const CallPage = ({ socket }) => {
       <div className="call-page-header">
         {!caller ? (
           <>
-            <MdCall
+            {/* <MdCall
               className="fa"
               style={{ display: attemptCall ? "none" : "block" }}
-            />
+            /> */}
             <h1 style={{ display: attemptCall ? "none" : "block" }}>
               Start a Call
             </h1>

@@ -59,8 +59,9 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
     let done = true;
     if (done) {
       socket.on("typing", (data) => {
-          console.log(data.chatId, chatId)
-           data.chatId===chatId ? setIsTyping(true) : setIsTyping(false);
+        console.log(data, 'the data')
+           data.chatId===chatId && setIsTyping(true);
+          //  data.chatId===chatId ? setIsTyping(true) : setIsTyping(false);
       });
       socket.on("stop typing", () => setIsTyping(false));
       socket.on("receive message", (newMessage) => {
@@ -123,7 +124,6 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
     if (!message) return;
     const formData = new FormData();
     formData.append("file", uploadImage?.img);
-    console.log(uploadImage, "form data");
     try {
       let res;
       if (uploadImage.img) {
@@ -314,8 +314,9 @@ const MessageSection = ({ user, socket, setNotifications, notifications }) => {
             <input
               value={message}
               onChange={(e) => {
-                e.target.value.length > 0 ? socket.emit("typing", chatObject, currentUser) : socket.emit('stop typing', chatObject, currentUser);
+                socket.emit("typing", chatObject, currentUser);
                 setMessage(e.target.value);
+                console.log('body is')
               }}
               type="text"
               style={{

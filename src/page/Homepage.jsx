@@ -16,7 +16,6 @@ const Homepage = () => {
                 const res = await makeRequest.post('/sendmail/enquiry', { to: 'chiemelapromise30@gmail.com', from: 'Anonymous', subject: 'Enquiry mail from Flimzy', message })
                 setMessage('')
                 toast.success('Mail sent!')
-                console.log(res.data)
             }
         } catch (error) {
 

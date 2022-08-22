@@ -143,7 +143,7 @@ const Sidebar = ({ socket, notifications, setNotifications }) => {
                 </div> */}
           {chatList?.length < 1 ? (
             <p style={{ color: themeBg.color, margin: "10px 0 10px 20px" }}>
-              Choose a user to chat below
+              You can make connections by finding new friends
             </p>
           ) : (
             chatList

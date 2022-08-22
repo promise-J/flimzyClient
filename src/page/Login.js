@@ -40,6 +40,25 @@ const Login = () => {
     }
   }
 
+  const guestLogin = async(e)=>{
+    e.preventDefault()
+    try {
+       const res = await makeRequest.post("/user/login", {
+         email: 'guest@gmail.com',
+         password: 'password',
+       });
+       if (res.status === 200) {
+         dispatch(login(res.data.user));
+         localStorage.setItem("secretToken", res.data.token);
+         toast.success("Login Success");
+         window.location.href = "/chat";
+       } 
+    } catch (error) {
+      toast.error(error.response.data)
+      console.log(error)
+    }
+  }
+
 
   return (
     <div className='login'>
@@ -55,6 +74,9 @@ const Login = () => {
                 <input type='text' placeholder='Email here' value={loginEmail} onChange={(e) => setLoginDetails({ ...loginDetails, loginEmail: e.target.value })} />
                 <input type='text' placeholder='password' value={loginPassword} onChange={(e) => setLoginDetails({ ...loginDetails, loginPassword: e.target.value })} />
                 <button disabled={!loginEmail || !loginPassword} >Login</button>
+                <div>
+                  <button style={{marginTop: 30}} onClick={guestLogin}>Guest mode</button>
+                </div>
               </form>
           </div>
         </div>

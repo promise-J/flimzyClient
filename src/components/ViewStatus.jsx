@@ -34,7 +34,6 @@ const ViewStatus = () => {
     const goToNext = () => {
         // setRendering(currentStatusArray[rendIndex + 1])
         if (rendIndex >= rendLength - 1 && statusIndex < allStatus?.length) {
-            console.log('e don happen')
             dispatch(setStatusIndex(statusIndex + 1))
         }
         if((rendIndex < currentStatusArray?.length - 1) && statusIndex <= allStatus?.length){

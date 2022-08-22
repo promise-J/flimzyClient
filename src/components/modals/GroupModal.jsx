@@ -12,7 +12,6 @@ const GroupModal = () => {
   const [groupName, setGroupName] = useState("");
   const { userList } = useSelector((state) => state.user);
   const { themeBg } = useSelector((state) => state.app);
-  console.log(themeBg.bg, "the way");
 
   const addMembers = (user) => {
     if (!groupMembers.find((mem) => mem.id === user._id)) {

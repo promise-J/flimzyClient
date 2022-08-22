@@ -45,7 +45,6 @@ const FriendRequest = ({ socket }) => {
     try {
       const res = await makeRequest.put(`/user/rejectRequest/${chatId}`);
       dispatch(setUserRequest(userRequest.filter((usr) => usr._id !== chatId)));
-      console.log(res, "respond");
       if (res.status === 200) {
         // dispatch(addChatList(res.data))
         toast.success("Request Rejected");

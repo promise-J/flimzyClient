@@ -75,7 +75,6 @@ const Starting = () => {
                     navigate('/signup')
                 }
             } catch (error) {
-                console.log(error, 'the bastard')
                 setLoading(false)
                 setRegState(2)
                 toast.error(error.response.data)
