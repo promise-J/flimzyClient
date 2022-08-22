@@ -17,7 +17,7 @@ const MessageText = ({
   searchMessage,
 }) => {
   const { user } = useSelector((state) => state.user);
-  // const { themeBg } = useSelector(state => state.app)
+  const { themeBg } = useSelector(state => state.app)
   const [msgOption, setMsgOption] = useState(false);
   const dispatch = useDispatch();
 
@@ -152,6 +152,8 @@ const MessageText = ({
               left: user._id === msg.sender._id && -130,
               right: user._id !== msg.sender._id && -130,
               top: -50,
+              zIndex: 50,
+              background: themeBg.bg
             }}
           >
             <MdOutlineCancel

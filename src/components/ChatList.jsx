@@ -4,7 +4,7 @@ import { setChatId } from "../redux/userSlice";
 import ProfilePic from "../images/profileBlank.png";
 import { makeRequest } from "../utils/apiCalls";
 import { format } from "timeago.js";
-import { setChatSwitch, setPopImg, setShowImg } from "../redux/chatSlice";
+import { setPopImg, setShowImg } from "../redux/chatSlice";
 // import { setSelectedChatCompare } from '../redux/chatSlice'
 // const REACT_APP_BACKEND_URL = process.env.REACT_APP_BACKEND_URL
 
@@ -42,9 +42,9 @@ const ChatList = ({ chat, notifications, setNotifications }) => {
   }, [singleLoad, chat, notifications]);
 
   const selectChat = (chatId) => {
-    dispatch(setChatSwitch(true))
+    // dispatch(setChatSwitch(true))
     dispatch(setChatId(chatId));
-    dispatch(setChatSwitch(false))
+    // dispatch(setChatSwitch(false))
     setNotifications(
       notifications.filter((notif) => notif.chat._id !== chat._id)
     );

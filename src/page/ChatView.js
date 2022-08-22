@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./chatView.css";
 import { useDispatch, useSelector } from "react-redux";
 import { makeRequest } from "../utils/apiCalls";
@@ -34,12 +34,14 @@ import FriendRequest from "../components/friendRequestPanel/FriendRequest.jsx";
 import CallPage from "./CallPage";
 import { setCaller, setCallMode, setPeer } from "../redux/callSlice";
 import CallAlert from "../components/modals/CallAlert";
+import RingTone from "../audio/tecno.mp3";
 // import StatusPage from './StatusPage'
 
 // const END_POINT = process.env.REACT_APP_BACKEND_URL;
 // const END_POINT = 'http://localhost:5000'
 
 const ChatView = ({ socket }) => {
+  const ringToneRef = useRef(null);
   const dispatch = useDispatch();
   const [openProfile, setOpenProfile] = useState(false);
   const [leftToggleHeader, setLeftToggleHeader] = useState(false);
@@ -50,24 +52,28 @@ const ChatView = ({ socket }) => {
   const { rightView, showTheme, leftView, themeBg } = useSelector(
     (state) => state.app
   );
-  const { showGroupModal, showImg, chatLoading, headerToggle, chatList } = useSelector((state) => state.chat);
-  const { callMode, receivingCall, caller } = useSelector((state) => state.call);
+  const { showGroupModal, showImg, chatLoading, headerToggle, chatList } =
+    useSelector((state) => state.chat);
+  const { callMode, receivingCall, caller, answered } = useSelector(
+    (state) => state.call
+  );
+
+  console.log(answered, 'the answered state')
 
   useEffect(() => {
-    let done = true
-    if(done){
-
+    let done = true;
+    if (done) {
       const peer = new Peer({
         // initiator: true,
         trickle: false,
-        channelName: user?._id
+        channelName: user?._id,
       });
       dispatch(setPeer(peer));
     }
 
-    return ()=>{
-      done = false
-    }
+    return () => {
+      done = false;
+    };
   }, [user, dispatch]);
 
   useEffect(() => {
@@ -143,7 +149,7 @@ const ChatView = ({ socket }) => {
       });
   }, [socket, dispatch]);
 
-  useEffect(()=>{
+  useEffect(() => {
     socket.on("hey", (data) => {
       // console.log(data, "the hey");
       // dispatch(setReceivingCall(true));
@@ -151,11 +157,13 @@ const ChatView = ({ socket }) => {
       // dispatch(setCallSignal(data.signal));
     });
 
-    socket.on('rejectedCall', ()=>{
-      console.log('call is rejected')
-      dispatch(setCallMode(false))
-    })
-  },[dispatch, socket])
+    socket.on("rejectedCall", () => {
+      console.log(
+        "call is rejected ooooooooooooooooooooooooooooooooooooooooooooo"
+      );
+      dispatch(setCallMode(false));
+    });
+  }, [dispatch, socket]);
 
   const closeAll = () => {
     if (leftToggleHeader) {
@@ -172,6 +180,18 @@ const ChatView = ({ socket }) => {
   if (chatLoading) {
     return <LoadAnimate />;
   }
+
+  const handleTone = () => {
+    if (caller) {
+      ringToneRef?.current?.play();
+    } else if(answered) {
+      ringToneRef?.current?.pause();
+    }else{
+      ringToneRef?.current?.pause();
+    }
+  };
+
+  handleTone()
   // linear-gradient(to bottom, rgba(245, 246, 252, 0.52), rgba(117, 19, 93, 0.73)),
   // url('images/background.jpg')
   return (
@@ -260,6 +280,8 @@ const ChatView = ({ socket }) => {
         ) : null}
       </div>
       {(callMode || receivingCall) && <CallPage socket={socket} />}
+      {/* {l && <CallEnded socket={socket} />} */}
+      <audio ref={ringToneRef} src={RingTone} />
     </>
   );
 };

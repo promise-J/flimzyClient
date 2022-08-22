@@ -6,7 +6,8 @@ const initialState = {
   peer: null,
   receivingCall: false,
   caller: null,
-  callSignal: null
+  callSignal: null,
+  answered: false
 };
 
 const callSlice = createSlice({
@@ -30,6 +31,9 @@ const callSlice = createSlice({
     },
     setPeer: (state, action)=>{
         state.peer = action.payload
+    },
+    setAnswered: (state, action)=>{
+      state.answered = action.payload
     }
   },
 });
@@ -40,7 +44,8 @@ export const {
  setPeer,
  setCallSignal,
  setCaller,
- setReceivingCall
+ setReceivingCall,
+ setAnswered
 } = callSlice.actions;
 
 export default callSlice.reducer;
