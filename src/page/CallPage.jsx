@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { BiVideo, BiVideoOff } from "react-icons/bi";
-import { MdCall, MdCallEnd } from "react-icons/md";
+import { MdCallEnd } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { setAnswered, setCaller, setCallMode, setReceivingCall } from "../redux/callSlice";
 import "./callpage.css";

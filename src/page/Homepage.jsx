@@ -13,7 +13,7 @@ const Homepage = () => {
     const handleSend = async () => {
         try {
             if (message) {
-                const res = await makeRequest.post('/sendmail/enquiry', { to: 'chiemelapromise30@gmail.com', from: 'Anonymous', subject: 'Enquiry mail from Flimzy', message })
+                await makeRequest.post('/sendmail/enquiry', { to: 'chiemelapromise30@gmail.com', from: 'Anonymous', subject: 'Enquiry mail from Flimzy', message })
                 setMessage('')
                 toast.success('Mail sent!')
             }
